@@ -13,3 +13,5 @@ struct NumberClue {
   let value: Int
   var isSatisfied: Bool = false
 }
+
+

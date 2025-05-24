@@ -14,14 +14,6 @@ struct ClearConfirmationModal: View {
 
   var body: some View {
     ZStack {
-      // Background overlay
-      Rectangle()
-        .fill(.black.opacity(0.3))
-        .ignoresSafeArea()
-        .onTapGesture {
-          onCancel()
-        }
-
       // Modal content
       VStack(spacing: 24) {
         // Title
@@ -29,13 +21,6 @@ struct ClearConfirmationModal: View {
           .font(.title2)
           .fontWeight(.medium)
           .foregroundColor(.primary)
-
-        // Message
-        Text("This will remove all your progress on the current puzzle.")
-          .font(.body)
-          .foregroundColor(.secondary)
-          .multilineTextAlignment(.center)
-          .lineLimit(nil)
 
         // Buttons
         HStack(spacing: 12) {

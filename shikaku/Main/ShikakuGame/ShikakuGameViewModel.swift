@@ -5,7 +5,6 @@
 //  Created by Hugo Peyron on 24/05/2025.
 //
 
-
 import SwiftUI
 
 @Observable
@@ -193,3 +192,4 @@ class ShikakuGame {
     return true
   }
 }
+

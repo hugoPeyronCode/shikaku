@@ -18,7 +18,7 @@ struct ShikakuGameView: View {
   @State private var previewValidation: (isValid: Bool, color: Color) = (false, .gray)
   @State private var showClearConfirmation = false
 
-  let cellSize: CGFloat = 60
+  let cellSize: CGFloat = 55
 
   var body: some View {
     ZStack {
@@ -39,9 +39,7 @@ struct ShikakuGameView: View {
       .background(Color(.systemBackground))
       .blur(radius: showClearConfirmation ? 2 : 0)
       .animation(.easeInOut(duration: 0.2), value: showClearConfirmation)
-
-      // Clear confirmation modal
-      if showClearConfirmation {
+      .sheet(isPresented: $showClearConfirmation) {
         ClearConfirmationModal(
           onConfirm: {
             game.clearBoard()
@@ -53,8 +51,7 @@ struct ShikakuGameView: View {
             showClearConfirmation = false
           }
         )
-        .transition(.opacity.combined(with: .scale(scale: 0.9)))
-        .animation(.spring(duration: 0.3), value: showClearConfirmation)
+        .presentationDetents([.medium])
       }
     }
   }
@@ -63,13 +60,6 @@ struct ShikakuGameView: View {
 
   private var headerView: some View {
     HStack {
-      Button(action: {}) {
-        Image(systemName: "chevron.left")
-          .font(.title2)
-          .foregroundColor(.primary)
-      }
-      .sensoryFeedback(.impact(weight: .light), trigger: UUID())
-
       Text("Shikaku")
         .font(.largeTitle)
         .fontWeight(.bold)
@@ -132,7 +122,7 @@ struct ShikakuGameView: View {
         .padding(.vertical, 12)
         .padding(.horizontal, 30)
         .background(
-          RoundedRectangle(cornerRadius: 25)
+          RoundedRectangle(cornerRadius: 0)
             .stroke(Color.secondary.opacity(0.5), lineWidth: 1)
         )
     }
@@ -190,8 +180,6 @@ struct ShikakuGameView: View {
     let containingRect = game.rectangles.first { $0.contains(position: position) }
 
     let borderColor: HierarchicalShapeStyle = .primary
-    let borderWidth: CGFloat = 1
-    let borderOpacity: CGFloat = 0.2
 
     return ZStack {
       Rectangle()

@@ -8,10 +8,14 @@
 import SwiftUI
 
 @main
-struct shikakuApp: App {
+struct ShikakuApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ShikakuGameView()
         }
     }
+}
+
+#Preview {
+  ShikakuGameView()
 }

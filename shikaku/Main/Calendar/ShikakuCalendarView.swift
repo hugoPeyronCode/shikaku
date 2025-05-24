@@ -2,7 +2,7 @@
 //  ShikakuCalendarView.swift
 //  shikaku
 //
-//  Updated calendar view with daily Shikaku preview and game access
+//  Fixed calendar view with direct game integration
 //
 
 import SwiftUI
@@ -18,6 +18,7 @@ struct ShikakuCalendarView: View {
     @State private var showingLevelEditor = false
     @State private var showingGameView = false
     @State private var selectedLevel: ShikakuLevel?
+    @State private var game = ShikakuGame()
 
     private var calendar = Calendar.current
 
@@ -43,9 +44,44 @@ struct ShikakuCalendarView: View {
                     .environment(\.modelContext, modelContext)
             }
             .fullScreenCover(isPresented: $showingGameView) {
-                if let level = selectedLevel {
-                    DailyGameView(level: level)
-                        .environment(\.modelContext, modelContext)
+                ZStack {
+                    // Game content
+                    ShikakuGameView(game: game)
+                        .onAppear {
+                            loadSelectedLevel()
+                        }
+                        .onChange(of: game.isGameComplete) { _, isComplete in
+                            if isComplete && selectedLevel?.isCompleted == false {
+                                markLevelCompleted()
+                            }
+                        }
+
+                    // Close button overlay
+                    VStack {
+                        HStack {
+                            Spacer()
+
+                            Button {
+                                showingGameView = false
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .font(.title2)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.primary)
+                                    .frame(width: 32, height: 32)
+                                    .background(
+                                        Circle()
+                                            .fill(.ultraThinMaterial)
+                                            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                                    )
+                            }
+                            .sensoryFeedback(.impact(weight: .light), trigger: false)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+
+                        Spacer()
+                    }
                 }
             }
             .onAppear {
@@ -210,6 +246,50 @@ struct ShikakuCalendarView: View {
             formatter.dateFormat = "EEEE, MMMM d"
             return formatter.string(from: selectedDate)
         }
+    }
+
+    // MARK: - Game Loading Functions
+
+    private func loadSelectedLevel() {
+        guard let level = selectedLevel else { return }
+
+        // Configure game with level data
+        game.gridSize = (level.gridRows, level.gridCols)
+        game.numberClues = level.toNumberClues()
+        game.rectangles = []
+        game.validateGame()
+    }
+
+    private func markLevelCompleted() {
+        guard let level = selectedLevel else { return }
+
+        level.isCompleted = true
+        level.completionTime = Date().timeIntervalSinceReferenceDate
+
+        // Update progress
+        let fetchDescriptor = FetchDescriptor<GameProgress>()
+        if let progressArray = try? modelContext.fetch(fetchDescriptor),
+           let progress = progressArray.first {
+            progress.totalCompletedLevels += 1
+
+            // Update streak
+            if let lastPlayed = progress.lastPlayedDate {
+                let daysBetween = Calendar.current.dateComponents([.day], from: lastPlayed, to: Date()).day ?? 0
+                if daysBetween == 1 {
+                    progress.currentStreak += 1
+                    progress.maxStreak = max(progress.maxStreak, progress.currentStreak)
+                } else if daysBetween > 1 {
+                    progress.currentStreak = 1
+                }
+            } else {
+                progress.currentStreak = 1
+                progress.maxStreak = 1
+            }
+
+            progress.lastPlayedDate = Date()
+        }
+
+        try? modelContext.save()
     }
 
     // MARK: - Helper Methods
@@ -443,95 +523,7 @@ struct NoDailyShikakuCard: View {
     }
 }
 
-// MARK: - Full Screen Game View
-
-struct DailyGameView: View {
-    let level: ShikakuLevel
-    @Environment(\.dismiss) private var dismiss
-    @Environment(\.modelContext) private var modelContext
-    @State private var game = ShikakuGame()
-
-    var body: some View {
-        ZStack {
-            // Game content
-            ShikakuGameView(game: game)
-                .onAppear {
-                    loadLevel()
-                }
-                .onChange(of: game.isGameComplete) { _, isComplete in
-                    if isComplete && !level.isCompleted {
-                        markLevelCompleted()
-                    }
-                }
-
-            // Close button overlay
-            VStack {
-                HStack {
-                    Spacer()
-
-                    Button {
-                        dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .font(.title2)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.primary)
-                            .frame(width: 32, height: 32)
-                            .background(
-                                Circle()
-                                    .fill(.ultraThinMaterial)
-                                    .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
-                            )
-                    }
-                    .sensoryFeedback(.impact(weight: .light), trigger: false)
-                }
-                .padding(.horizontal)
-                .padding(.top, 8)
-
-                Spacer()
-            }
-        }
-    }
-
-    private func loadLevel() {
-        game.gridSize = (level.gridRows, level.gridCols)
-        game.numberClues = level.toNumberClues()
-        game.rectangles = []
-        game.validateGame()
-    }
-
-    private func markLevelCompleted() {
-        level.isCompleted = true
-        level.completionTime = Date().timeIntervalSinceReferenceDate
-
-        // Update progress
-        let fetchDescriptor = FetchDescriptor<GameProgress>()
-        if let progressArray = try? modelContext.fetch(fetchDescriptor),
-           let progress = progressArray.first {
-            progress.totalCompletedLevels += 1
-
-            // Update streak
-            if let lastPlayed = progress.lastPlayedDate {
-                let daysBetween = Calendar.current.dateComponents([.day], from: lastPlayed, to: Date()).day ?? 0
-                if daysBetween == 1 {
-                    progress.currentStreak += 1
-                    progress.maxStreak = max(progress.maxStreak, progress.currentStreak)
-                } else if daysBetween > 1 {
-                    progress.currentStreak = 1
-                }
-            } else {
-                progress.currentStreak = 1
-                progress.maxStreak = 1
-            }
-
-            progress.lastPlayedDate = Date()
-        }
-
-        try? modelContext.save()
-    }
-}
-
-// MARK: - Supporting Views (same as before)
+// MARK: - Supporting Views
 
 struct StatItem: View {
     let value: Int

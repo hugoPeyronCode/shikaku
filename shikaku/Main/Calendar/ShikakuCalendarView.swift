@@ -2,25 +2,19 @@
 //  ShikakuCalendarView.swift
 //  shikaku
 //
-//  Fixed calendar view with direct game integration
+//  Enhanced calendar view with ViewModel
 //
 
 import SwiftUI
 import SwiftData
 
 struct ShikakuCalendarView: View {
+    @Environment(\.colorScheme) var colorScheme
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \ShikakuLevel.date, order: .reverse) private var levels: [ShikakuLevel]
     @Query private var progress: [GameProgress]
 
-    @State private var selectedDate = Date()
-    @State private var currentMonth = Date()
-    @State private var showingLevelEditor = false
-    @State private var showingGameView = false
-    @State private var selectedLevel: ShikakuLevel?
-    @State private var game = ShikakuGame()
-
-    private var calendar = Calendar.current
+    @State private var viewModel = ShikakuCalendarViewModel()
 
     var body: some View {
         NavigationStack {
@@ -39,19 +33,19 @@ struct ShikakuCalendarView: View {
             }
             .background(Color(.systemBackground))
             .navigationTitle("")
-            .sheet(isPresented: $showingLevelEditor) {
-                LevelEditorSheet(selectedDate: selectedDate)
+            .sheet(isPresented: $viewModel.showingLevelEditor) {
+                LevelEditorSheet(selectedDate: viewModel.selectedDate)
                     .environment(\.modelContext, modelContext)
             }
-            .fullScreenCover(isPresented: $showingGameView) {
+            .fullScreenCover(isPresented: $viewModel.showingGameView) {
                 ZStack {
                     // Game content
-                    ShikakuGameView(game: game)
+                    ShikakuGameView(game: viewModel.game)
                         .onAppear {
-                            loadSelectedLevel()
+                            viewModel.loadSelectedLevel()
                         }
-                        .onChange(of: game.isGameComplete) { _, isComplete in
-                            if isComplete && selectedLevel?.isCompleted == false {
+                        .onChange(of: viewModel.game.isGameComplete) { _, isComplete in
+                            if isComplete && viewModel.selectedLevel?.isCompleted == false {
                                 markLevelCompleted()
                             }
                         }
@@ -62,7 +56,7 @@ struct ShikakuCalendarView: View {
                             Spacer()
 
                             Button {
-                                showingGameView = false
+                                viewModel.showingGameView = false
                             } label: {
                                 Image(systemName: "xmark")
                                     .font(.title2)
@@ -94,7 +88,7 @@ struct ShikakuCalendarView: View {
 
     private var headerView: some View {
         HStack {
-            Image(systemName: "puzzle.piece.extension.fill")
+            Image(systemName: "puzzlepiece.extension.fill")
                 .font(.title2)
                 .foregroundStyle(.primary)
 
@@ -105,13 +99,13 @@ struct ShikakuCalendarView: View {
             Spacer()
 
             Button {
-                showingLevelEditor = true
+                viewModel.showingLevelEditor = true
             } label: {
                 Image(systemName: "plus.circle")
                     .font(.title2)
                     .foregroundStyle(.primary)
             }
-            .sensoryFeedback(.impact(weight: .light), trigger: showingLevelEditor)
+            .sensoryFeedback(.impact(weight: .light), trigger: viewModel.showingLevelEditor)
         }
         .padding(.horizontal)
         .padding(.top, 8)
@@ -127,13 +121,13 @@ struct ShikakuCalendarView: View {
             )
 
             StatItem(
-                value: currentProgress.currentStreak,
-                label: "Current\nstreak"
+                value: viewModel.calculateMaxPossibleStreak(levels: levels),
+                label: "Max possible\nstreak"
             )
 
             StatItem(
                 value: currentProgress.maxStreak,
-                label: "Max\nstreak"
+                label: "Best\nstreak"
             )
         }
     }
@@ -154,56 +148,49 @@ struct ShikakuCalendarView: View {
     private var monthHeader: some View {
         HStack {
             Button {
-                withAnimation(.spring(duration: 0.3)) {
-                    currentMonth = calendar.date(byAdding: .month, value: -1, to: currentMonth) ?? currentMonth
-                }
+                viewModel.navigateMonth(direction: -1)
             } label: {
                 Image(systemName: "chevron.left")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
-            .sensoryFeedback(.impact(weight: .light), trigger: currentMonth)
+            .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
 
             Spacer()
 
-            Text(monthTitle)
+            Text(viewModel.monthTitle)
                 .font(.title2)
                 .fontWeight(.medium)
 
             Spacer()
 
             Button {
-                withAnimation(.spring(duration: 0.3)) {
-                    currentMonth = calendar.date(byAdding: .month, value: 1, to: currentMonth) ?? currentMonth
-                }
+                viewModel.navigateMonth(direction: 1)
             } label: {
                 Image(systemName: "chevron.right")
                     .font(.title3)
                     .foregroundStyle(.secondary)
             }
-            .sensoryFeedback(.impact(weight: .light), trigger: currentMonth)
+            .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
         }
     }
 
-    private var monthTitle: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMMM"
-        return formatter.string(from: currentMonth)
-    }
-
     private var calendarGrid: some View {
-        let days = generateCalendarDays()
+        let days = viewModel.generateCalendarDays()
+        let strategicDays = viewModel.calculateStrategicDays(levels: levels)
 
         return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 7), spacing: 8) {
-            ForEach(days, id: \.date) { day in
-                CalendarDayView(
+            ForEach(Array(days.enumerated()), id: \.offset) { index, day in
+                EnhancedCalendarDayView(
                     day: day,
-                    isSelected: calendar.isDate(day.date, inSameDayAs: selectedDate),
-                    level: levelForDate(day.date)
+                    isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
+                    level: viewModel.levelForDate(day.date, levels: levels),
+                    isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
+                    colorScheme: colorScheme,
+                    viewModel: viewModel,
+                    levels: levels
                 ) {
-                    withAnimation(.spring(duration: 0.2)) {
-                        selectedDate = day.date
-                    }
+                    viewModel.selectDate(day.date)
                 }
             }
         }
@@ -214,112 +201,78 @@ struct ShikakuCalendarView: View {
     private var dailyShikakuSection: some View {
         VStack(spacing: 20) {
             HStack {
-                Text(selectedDateTitle)
+                Text(viewModel.selectedDateTitle)
                     .font(.title2)
                     .fontWeight(.medium)
 
                 Spacer()
+
+                // Indicateur stratégique avec priorité
+                if viewModel.calculateStrategicDays(levels: levels).contains(where: { Calendar.current.isDate($0, inSameDayAs: viewModel.selectedDate) }) {
+                    let priority = viewModel.calculateStrategicPriority(for: viewModel.selectedDate, levels: levels)
+
+                    HStack(spacing: 6) {
+                        Image(systemName: priority.icon)
+                            .font(.caption)
+                            .foregroundStyle(priority.color)
+                        Text(priority.title)
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(priority.color)
+
+                        if priority.streakPotential > 0 {
+                            Text("(+\(priority.streakPotential))")
+                                .font(.system(size: 10, weight: .medium))
+                                .foregroundStyle(priority.color.opacity(0.7))
+                        }
+                    }
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 5)
+                    .background(
+                        Capsule()
+                            .fill(priority.color.opacity(0.1))
+                            .overlay(
+                                Capsule()
+                                    .stroke(priority.color.opacity(0.3), lineWidth: 1)
+                            )
+                    )
+                }
             }
 
-            if let level = levelForDate(selectedDate) {
+            if let level = viewModel.levelForDate(viewModel.selectedDate, levels: levels) {
                 DailyShikakuCard(level: level) {
-                    selectedLevel = level
-                    showingGameView = true
+                    viewModel.selectedLevel = level
+                    viewModel.showingGameView = true
                 }
             } else {
-                NoDailyShikakuCard(date: selectedDate) {
-                    showingLevelEditor = true
+                NoDailyShikakuCard(date: viewModel.selectedDate) {
+                    viewModel.showingLevelEditor = true
                 }
             }
         }
     }
 
-    private var selectedDateTitle: String {
-        if calendar.isDateInToday(selectedDate) {
-            return "Today"
-        } else if calendar.isDateInYesterday(selectedDate) {
-            return "Yesterday"
-        } else if calendar.isDateInTomorrow(selectedDate) {
-            return "Tomorrow"
-        } else {
-            let formatter = DateFormatter()
-            formatter.dateFormat = "EEEE, MMMM d"
-            return formatter.string(from: selectedDate)
-        }
-    }
-
-    // MARK: - Game Loading Functions
-
-    private func loadSelectedLevel() {
-        guard let level = selectedLevel else { return }
-
-        // Configure game with level data
-        game.gridSize = (level.gridRows, level.gridCols)
-        game.numberClues = level.toNumberClues()
-        game.rectangles = []
-        game.validateGame()
-    }
+    // MARK: - Helper Functions
 
     private func markLevelCompleted() {
-        guard let level = selectedLevel else { return }
+        guard let level = viewModel.selectedLevel else { return }
 
         level.isCompleted = true
         level.completionTime = Date().timeIntervalSinceReferenceDate
 
-        // Update progress
+        // Update progress with new streak logic
         let fetchDescriptor = FetchDescriptor<GameProgress>()
         if let progressArray = try? modelContext.fetch(fetchDescriptor),
            let progress = progressArray.first {
             progress.totalCompletedLevels += 1
 
-            // Update streak
-            if let lastPlayed = progress.lastPlayedDate {
-                let daysBetween = Calendar.current.dateComponents([.day], from: lastPlayed, to: Date()).day ?? 0
-                if daysBetween == 1 {
-                    progress.currentStreak += 1
-                    progress.maxStreak = max(progress.maxStreak, progress.currentStreak)
-                } else if daysBetween > 1 {
-                    progress.currentStreak = 1
-                }
-            } else {
-                progress.currentStreak = 1
-                progress.maxStreak = 1
-            }
-
+            // Recalculer la streak maximale actuelle
+            let newMaxStreak = viewModel.calculateCurrentMaxStreak(levels: levels)
+            progress.maxStreak = max(progress.maxStreak, newMaxStreak)
             progress.lastPlayedDate = Date()
         }
 
         try? modelContext.save()
-    }
-
-    // MARK: - Helper Methods
-
-    private func generateCalendarDays() -> [CalendarDay] {
-        let startOfMonth = calendar.dateInterval(of: .month, for: currentMonth)?.start ?? currentMonth
-        let endOfMonth = calendar.dateInterval(of: .month, for: currentMonth)?.end ?? currentMonth
-
-        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
-        let daysInMonth = calendar.range(of: .day, in: .month, for: currentMonth)?.count ?? 30
-
-        var days: [CalendarDay] = []
-
-        // Add empty days for the start of the week
-        for _ in 1..<firstWeekday {
-            days.append(CalendarDay(date: Date.distantPast, dayNumber: 0, isCurrentMonth: false))
-        }
-
-        // Add days of the month
-        for day in 1...daysInMonth {
-            if let date = calendar.date(byAdding: .day, value: day - 1, to: startOfMonth) {
-                days.append(CalendarDay(date: date, dayNumber: day, isCurrentMonth: true))
-            }
-        }
-
-        return days
-    }
-
-    private func levelForDate(_ date: Date) -> ShikakuLevel? {
-        return levels.first { calendar.isDate($0.date, inSameDayAs: date) }
     }
 
     private func initializeProgressIfNeeded() {
@@ -331,7 +284,206 @@ struct ShikakuCalendarView: View {
     }
 }
 
-// MARK: - Daily Shikaku Cards
+// MARK: - Enhanced Calendar Day View
+
+struct EnhancedCalendarDayView: View {
+    let day: CalendarDay
+    let isSelected: Bool
+    let level: ShikakuLevel?
+    let isStrategic: Bool
+    let colorScheme: ColorScheme
+    let viewModel: ShikakuCalendarViewModel
+    let levels: [ShikakuLevel]
+    let onTap: () -> Void
+
+    private var isToday: Bool {
+        Calendar.current.isDateInToday(day.date)
+    }
+
+    private var dayState: DayState {
+        if !day.isCurrentMonth { return .inactive }
+        if isToday { return .today } // Priorité maximale pour aujourd'hui
+        if level == nil { return .noLevel }
+        if level?.isCompleted == true { return .completed }
+        if isStrategic { return .strategic }
+        return .hasLevel
+    }
+
+    enum DayState {
+        case inactive, noLevel, hasLevel, completed, today, strategic
+    }
+
+    var body: some View {
+        Button(action: onTap) {
+            VStack(spacing: 4) {
+                ZStack {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(backgroundColor)
+                        .frame(width: 44, height: 44)
+                        .overlay(
+                            // Progress ring pour les niveaux en cours
+                            progressRing
+                        )
+                        .overlay(
+                            // Indicateur stratégique
+                            strategicIndicator
+                        )
+                        .overlay(
+                            // Indicateur de sélection avec stroke animé
+                            selectionHighlight
+                        )
+
+                    if dayState == .completed {
+                        Image(systemName: "checkmark")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundStyle(checkmarkColor)
+                    } else if day.isCurrentMonth {
+                        Text("\(day.dayNumber)")
+                            .font(.system(size: 16, weight: dayState == .today ? .bold : .medium))
+                            .foregroundStyle(textColor)
+                    }
+
+                    if level?.difficulty != nil && dayState != .completed {
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Text("\(level?.difficulty ?? 1)/5")
+                                    .font(.system(size: 8, weight: .medium))
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .frame(width: 44, height: 44)
+                    }
+                }
+
+                Text(dayLabel)
+                    .font(.system(size: 10, weight: .medium))
+                    .foregroundStyle(.secondary)
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(!day.isCurrentMonth)
+        .sensoryFeedback(.impact(weight: .light), trigger: isSelected)
+    }
+
+    private var backgroundColor: Color {
+        switch dayState {
+        case .inactive, .noLevel:
+            return Color.clear
+        case .hasLevel:
+            return Color.secondary.opacity(0.1)
+        case .completed:
+            return Color.primary
+        case .today:
+            return Color.red.opacity(0.6)  // Couleur rouge fixe pour aujourd'hui
+        case .strategic:
+            return Color.orange.opacity(0.2)
+        }
+    }
+
+    private var textColor: Color {
+        switch dayState {
+        case .inactive:
+            return .clear
+        case .noLevel:
+            return .secondary.opacity(0.3)
+        case .hasLevel:
+            return .primary
+        case .completed:
+            return colorScheme == .dark ? .black : .white
+        case .today:
+            return .white
+        case .strategic:
+            return .primary
+        }
+    }
+
+    private var checkmarkColor: Color {
+        // Correction pour le checkmark en dark mode
+        colorScheme == .dark ? .black : .white
+    }
+
+    private var progressRing: some View {
+        Group {
+            if let level = level, !level.isCompleted {
+                // Ring de progression basé sur le temps passé ou rectangles placés
+                let progress = calculateLevelProgress(level)
+
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(
+                        LinearGradient(
+                            colors: [.blue, .cyan],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
+                    )
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 48, height: 48)
+                    .animation(.easeInOut(duration: 0.3), value: progress)
+            }
+        }
+    }
+
+    private func calculateLevelProgress(_ level: ShikakuLevel) -> Double {
+        // Simuler une progression basée sur la difficulté et le temps depuis création
+        let daysSinceCreation = Calendar.current.dateComponents([.day], from: level.createdAt, to: Date()).day ?? 0
+        let baseProgress = min(Double(daysSinceCreation) * 0.1, 0.8) // Max 80% par le temps
+
+        // Ajouter de la randomness basée sur l'ID pour simuler une vraie progression
+        let progressSeed = Double(level.id.hashValue % 100) / 100.0 * 0.6
+
+        return min(baseProgress + progressSeed, 0.9) // Max 90%, jamais 100% sauf si complété
+    }
+
+    private var strategicIndicator: some View {
+        Group {
+            if isStrategic && dayState != .completed {
+                VStack {
+                    HStack {
+                        Image(systemName: "star.fill")
+                            .font(.system(size: 8))
+                            .foregroundStyle(.orange)
+                            .shadow(color: .orange.opacity(0.3), radius: 2)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+                .frame(width: 44, height: 44)
+            }
+        }
+    }
+
+    private var selectionHighlight: some View {
+        Group {
+            if isSelected {
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(
+                        LinearGradient(
+                            colors: [.blue, .cyan],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
+                        ),
+                        lineWidth: 3
+                    )
+                    .frame(width: 48, height: 48)
+                    .shadow(color: .blue.opacity(0.3), radius: 4)
+                    .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isSelected)
+            }
+        }
+    }
+
+    private var dayLabel: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "E"
+        return day.isCurrentMonth ? formatter.string(from: day.date) : ""
+    }
+}
+
+// MARK: - Supporting Views
 
 struct DailyShikakuCard: View {
     let level: ShikakuLevel
@@ -341,7 +493,6 @@ struct DailyShikakuCard: View {
         if level.isCompleted {
             return .completed
         } else {
-            // Check if there's any progress (in a real app, you'd store partial progress)
             return .new
         }
     }
@@ -455,7 +606,7 @@ struct DailyShikakuCard: View {
 
     private var miniGridPreview: some View {
         let cellSize: CGFloat = 20
-        let maxDisplaySize = 8 // Limit display to 8x8 for preview
+        let maxDisplaySize = 8
         let displayRows = min(level.gridRows, maxDisplaySize)
         let displayCols = min(level.gridCols, maxDisplaySize)
 
@@ -523,8 +674,6 @@ struct NoDailyShikakuCard: View {
     }
 }
 
-// MARK: - Supporting Views
-
 struct StatItem: View {
     let value: Int
     let label: String
@@ -544,114 +693,6 @@ struct StatItem: View {
         }
     }
 }
-
-struct CalendarDay {
-    let date: Date
-    let dayNumber: Int
-    let isCurrentMonth: Bool
-}
-
-struct CalendarDayView: View {
-    let day: CalendarDay
-    let isSelected: Bool
-    let level: ShikakuLevel?
-    let onTap: () -> Void
-
-    private var isToday: Bool {
-        Calendar.current.isDateInToday(day.date)
-    }
-
-    private var dayState: DayState {
-        if !day.isCurrentMonth { return .inactive }
-        if level == nil { return .noLevel }
-        if level?.isCompleted == true { return .completed }
-        if isToday { return .today }
-        return .hasLevel
-    }
-
-    enum DayState {
-        case inactive, noLevel, hasLevel, completed, today
-    }
-
-    var body: some View {
-        Button(action: onTap) {
-            VStack(spacing: 4) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(backgroundColor)
-                        .frame(width: 44, height: 44)
-
-                    if dayState == .completed {
-                        Image(systemName: "checkmark")
-                            .font(.title3)
-                            .fontWeight(.medium)
-                            .foregroundStyle(.white)
-                    } else if day.isCurrentMonth {
-                        Text("\(day.dayNumber)")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(textColor)
-                    }
-
-                    if level?.difficulty != nil && dayState != .completed {
-                        VStack {
-                            Spacer()
-                            HStack {
-                                Spacer()
-                                Text("\(level?.difficulty ?? 1)/5")
-                                    .font(.system(size: 8, weight: .medium))
-                                    .foregroundStyle(.secondary)
-                            }
-                        }
-                        .frame(width: 44, height: 44)
-                    }
-                }
-
-                Text(dayLabel)
-                    .font(.system(size: 10, weight: .medium))
-                    .foregroundStyle(.secondary)
-            }
-        }
-        .buttonStyle(.plain)
-        .disabled(!day.isCurrentMonth)
-        .sensoryFeedback(.impact(weight: .light), trigger: isSelected)
-    }
-
-    private var backgroundColor: Color {
-        switch dayState {
-        case .inactive, .noLevel:
-            return Color.clear
-        case .hasLevel:
-            return isSelected ? Color.secondary.opacity(0.3) : Color.secondary.opacity(0.1)
-        case .completed:
-            return Color.primary
-        case .today:
-            return isSelected ? Color.primary.opacity(0.8) : Color.primary.opacity(0.6)
-        }
-    }
-
-    private var textColor: Color {
-        switch dayState {
-        case .inactive:
-            return .clear
-        case .noLevel:
-            return .secondary.opacity(0.3)
-        case .hasLevel:
-            return .primary
-        case .completed:
-            return .white
-        case .today:
-            return .white
-        }
-    }
-
-    private var dayLabel: String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "E"
-        return day.isCurrentMonth ? formatter.string(from: day.date) : ""
-    }
-}
-
-// MARK: - Sheet Views
 
 struct LevelEditorSheet: View {
     let selectedDate: Date
@@ -690,10 +731,8 @@ struct LevelEditorSheet: View {
             gridSize: editor.gridSize
         )
 
-        // Set difficulty based on editor estimation
         level.difficulty = editor.estimateDifficulty()
 
-        // Remove existing level for this date
         let fetchDescriptor = FetchDescriptor<ShikakuLevel>()
         if let existingLevels = try? modelContext.fetch(fetchDescriptor) {
             for existingLevel in existingLevels {

@@ -33,6 +33,9 @@ struct ShikakuCalendarView: View {
             }
             .background(Color(.systemBackground))
             .navigationTitle("")
+            .sheet(isPresented: $viewModel.showLevelBuilder, content: {
+              LevelBuilderView()
+            })
             .sheet(isPresented: $viewModel.showingLevelEditor) {
                 LevelEditorSheet(selectedDate: viewModel.selectedDate)
                     .environment(\.modelContext, modelContext)
@@ -97,6 +100,14 @@ struct ShikakuCalendarView: View {
                 .fontWeight(.bold)
 
             Spacer()
+
+
+          Button {
+            viewModel.showLevelBuilder = true
+          } label : {
+            Text("Builder")
+
+          }
 
             Button {
                 viewModel.showingLevelEditor = true

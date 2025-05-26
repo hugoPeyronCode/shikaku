@@ -13,14 +13,14 @@ struct ShikakuCalendarView: View {
   @Environment(\.modelContext) private var modelContext
   @Query(sort: \ShikakuLevel.date, order: .reverse) private var levels: [ShikakuLevel]
   @Query private var progress: [GameProgress]
-  
+
   @State private var viewModel = ShikakuCalendarViewModel()
-  
+
   var body: some View {
     NavigationStack {
       VStack(spacing: 0) {
         headerView
-        
+
         ScrollView {
           VStack(spacing: 32) {
             statsView
@@ -52,12 +52,12 @@ struct ShikakuCalendarView: View {
                 markLevelCompleted()
               }
             }
-          
+
           // Close button overlay
           VStack {
             HStack {
               Spacer()
-              
+
               Button {
                 viewModel.showingGameView = false
               } label: {
@@ -76,7 +76,7 @@ struct ShikakuCalendarView: View {
             }
             .padding(.horizontal)
             .padding(.top, 8)
-            
+
             Spacer()
           }
         }
@@ -86,29 +86,26 @@ struct ShikakuCalendarView: View {
       }
     }
   }
-  
+
   // MARK: - Header
-  
+
   private var headerView: some View {
     HStack {
-      Image(systemName: "puzzlepiece.extension.fill")
-        .font(.title2)
-        .foregroundStyle(.primary)
-      
-      Text("Shikaku")
+      Text("Shikaku".uppercased())
+        .monospaced()
         .font(.title)
-        .fontWeight(.bold)
-      
+        .fontWeight(.thin)
+
       Spacer()
-      
-      
+
+
       Button {
         viewModel.showLevelBuilder = true
       } label : {
         Text("Builder")
-        
+
       }
-      
+
       Button {
         viewModel.showingLevelEditor = true
       } label: {
@@ -121,41 +118,41 @@ struct ShikakuCalendarView: View {
     .padding(.horizontal)
     .padding(.top, 8)
   }
-  
+
   // MARK: - Stats
-  
+
   private var statsView: some View {
     HStack(spacing: 40) {
       StatItem(
         value: currentProgress.totalCompletedLevels,
         label: "Completed\ndays"
       )
-      
+
       StatItem(
         value: viewModel.calculateMaxPossibleStreak(levels: levels),
         label: "Max possible\nstreak"
       )
-      
+
       StatItem(
         value: currentProgress.maxStreak,
         label: "Best\nstreak"
       )
     }
   }
-  
+
   private var currentProgress: GameProgress {
     progress.first ?? GameProgress()
   }
-  
+
   // MARK: - Calendar
-  
+
   private var calendarView: some View {
     VStack(spacing: 24) {
       monthHeader
       calendarGrid
     }
   }
-  
+
   private var monthHeader: some View {
     HStack {
       Button {
@@ -163,33 +160,33 @@ struct ShikakuCalendarView: View {
       } label: {
         Image(systemName: "chevron.left")
           .font(.title3)
-          .foregroundStyle(.secondary)
+          .foregroundStyle(.foreground)
       }
       .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
-      
+
       Spacer()
-      
+
       Text(viewModel.monthTitle)
         .font(.title2)
         .fontWeight(.medium)
-      
+
       Spacer()
-      
+
       Button {
         viewModel.navigateMonth(direction: 1)
       } label: {
         Image(systemName: "chevron.right")
           .font(.title3)
-          .foregroundStyle(.secondary)
+          .foregroundStyle(.foreground)
       }
       .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
     }
   }
-  
+
   private var calendarGrid: some View {
     let days = viewModel.generateCalendarDays()
     let strategicDays = viewModel.calculateStrategicDays(levels: levels)
-    
+
     return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 7), spacing: 8) {
       ForEach(Array(days.enumerated()), id: \.offset) { index, day in
         EnhancedCalendarDayView(
@@ -206,22 +203,22 @@ struct ShikakuCalendarView: View {
       }
     }
   }
-  
+
   // MARK: - Daily Shikaku Section
-  
+
   private var dailyShikakuSection: some View {
     VStack(spacing: 20) {
       HStack {
         Text(viewModel.selectedDateTitle)
           .font(.title2)
           .fontWeight(.medium)
-        
+
         Spacer()
-        
+
         // Indicateur stratégique avec priorité
         if viewModel.calculateStrategicDays(levels: levels).contains(where: { Calendar.current.isDate($0, inSameDayAs: viewModel.selectedDate) }) {
           let priority = viewModel.calculateStrategicPriority(for: viewModel.selectedDate, levels: levels)
-          
+
           HStack(spacing: 6) {
             Image(systemName: priority.icon)
               .font(.caption)
@@ -230,7 +227,7 @@ struct ShikakuCalendarView: View {
               .font(.caption)
               .fontWeight(.medium)
               .foregroundStyle(priority.color)
-            
+
             if priority.streakPotential > 0 {
               Text("(+\(priority.streakPotential))")
                 .font(.system(size: 10, weight: .medium))
@@ -249,7 +246,7 @@ struct ShikakuCalendarView: View {
           )
         }
       }
-      
+
       if let level = viewModel.levelForDate(viewModel.selectedDate, levels: levels) {
         DailyShikakuCard(level: level) {
           viewModel.selectedLevel = level
@@ -262,30 +259,30 @@ struct ShikakuCalendarView: View {
       }
     }
   }
-  
+
   // MARK: - Helper Functions
-  
+
   private func markLevelCompleted() {
     guard let level = viewModel.selectedLevel else { return }
-    
+
     level.isCompleted = true
     level.completionTime = Date().timeIntervalSinceReferenceDate
-    
+
     // Update progress with new streak logic
     let fetchDescriptor = FetchDescriptor<GameProgress>()
     if let progressArray = try? modelContext.fetch(fetchDescriptor),
        let progress = progressArray.first {
       progress.totalCompletedLevels += 1
-      
+
       // Recalculer la streak maximale actuelle
       let newMaxStreak = viewModel.calculateCurrentMaxStreak(levels: levels)
       progress.maxStreak = max(progress.maxStreak, newMaxStreak)
       progress.lastPlayedDate = Date()
     }
-    
+
     try? modelContext.save()
   }
-  
+
   private func initializeProgressIfNeeded() {
     if progress.isEmpty {
       let newProgress = GameProgress()
@@ -306,35 +303,31 @@ struct EnhancedCalendarDayView: View {
   let viewModel: ShikakuCalendarViewModel
   let levels: [ShikakuLevel]
   let onTap: () -> Void
-  
+
   private var isToday: Bool {
     Calendar.current.isDateInToday(day.date)
   }
-  
+
   private var dayState: DayState {
     if !day.isCurrentMonth { return .inactive }
-    if isToday { return .today } // Priorité maximale pour aujourd'hui
+    if isToday { return .today }
     if level == nil { return .noLevel }
     if level?.isCompleted == true { return .completed }
     if isStrategic { return .strategic }
     return .hasLevel
   }
-  
+
   enum DayState {
     case inactive, noLevel, hasLevel, completed, today, strategic
   }
-  
+
   var body: some View {
     Button(action: onTap) {
       VStack(spacing: 4) {
         ZStack {
           RoundedRectangle(cornerRadius: 12)
             .fill(backgroundColor)
-            .frame(width: 44, height: 44)
-            .overlay(
-              // Progress ring pour les niveaux en cours
-              progressRing
-            )
+            .frame(width: 45, height: 45)
             .overlay(
               // Indicateur stratégique
               strategicIndicator
@@ -343,7 +336,7 @@ struct EnhancedCalendarDayView: View {
               // Indicateur de sélection avec stroke animé
               selectionHighlight
             )
-          
+
           if dayState == .completed {
             Image(systemName: "checkmark")
               .font(.title3)
@@ -352,9 +345,9 @@ struct EnhancedCalendarDayView: View {
           } else if day.isCurrentMonth {
             Text("\(day.dayNumber)")
               .font(.system(size: 16, weight: dayState == .today ? .bold : .medium))
-              .foregroundStyle(textColor)
+              .foregroundStyle(dayDateColor)
           }
-          
+
           if level?.difficulty != nil && dayState != .completed {
             VStack {
               Spacer()
@@ -368,17 +361,20 @@ struct EnhancedCalendarDayView: View {
             .frame(width: 44, height: 44)
           }
         }
-        
-        Text(dayLabel)
-          .font(.system(size: 10, weight: .medium))
-          .foregroundStyle(.secondary)
+
+        if viewModel.showingDayLabel {
+          Text(dayLabel)
+            .font(.system(size: 10, weight: .medium))
+            .foregroundStyle(.secondary)
+        }
       }
+      
     }
     .buttonStyle(.plain)
     .disabled(!day.isCurrentMonth)
     .sensoryFeedback(.impact(weight: .light), trigger: isSelected)
   }
-  
+
   private var backgroundColor: Color {
     switch dayState {
     case .inactive, .noLevel:
@@ -388,18 +384,18 @@ struct EnhancedCalendarDayView: View {
     case .completed:
       return Color.primary
     case .today:
-      return Color.red.opacity(0.6)  // Couleur rouge fixe pour aujourd'hui
+      return Color.mint.opacity(0.6)  // Couleur rouge fixe pour aujourd'hui
     case .strategic:
       return Color.orange.opacity(0.2)
     }
   }
-  
-  private var textColor: Color {
+
+  private var dayDateColor: Color {
     switch dayState {
     case .inactive:
       return .clear
     case .noLevel:
-      return .secondary.opacity(0.3)
+      return .secondary
     case .hasLevel:
       return .primary
     case .completed:
@@ -410,19 +406,21 @@ struct EnhancedCalendarDayView: View {
       return .primary
     }
   }
-  
+
   private var checkmarkColor: Color {
     // Correction pour le checkmark en dark mode
     colorScheme == .dark ? .black : .white
   }
-  
+
   private var progressRing: some View {
+// to check because sometime I do see the stroke progressing and sometimes not when I launcht the app.The data might not be working well
+
     Group {
       if let level = level, !level.isCompleted {
         // Ring de progression basé sur le temps passé ou rectangles placés
         let progress = calculateLevelProgress(level)
-        
-        Circle()
+
+        RoundedRectangle(cornerRadius: 10)
           .trim(from: 0, to: progress)
           .stroke(
             LinearGradient(
@@ -430,7 +428,7 @@ struct EnhancedCalendarDayView: View {
               startPoint: .topLeading,
               endPoint: .bottomTrailing
             ),
-            style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
+            style: StrokeStyle(lineWidth: 1.5, lineCap: .round)
           )
           .rotationEffect(.degrees(-90))
           .frame(width: 48, height: 48)
@@ -438,18 +436,18 @@ struct EnhancedCalendarDayView: View {
       }
     }
   }
-  
+
   private func calculateLevelProgress(_ level: ShikakuLevel) -> Double {
     // Simuler une progression basée sur la difficulté et le temps depuis création
     let daysSinceCreation = Calendar.current.dateComponents([.day], from: level.createdAt, to: Date()).day ?? 0
     let baseProgress = min(Double(daysSinceCreation) * 0.1, 0.8) // Max 80% par le temps
-    
+
     // Ajouter de la randomness basée sur l'ID pour simuler une vraie progression
     let progressSeed = Double(level.id.hashValue % 100) / 100.0 * 0.6
-    
+
     return min(baseProgress + progressSeed, 0.9) // Max 90%, jamais 100% sauf si complété
   }
-  
+
   private var strategicIndicator: some View {
     Group {
       if isStrategic && dayState != .completed {
@@ -467,26 +465,26 @@ struct EnhancedCalendarDayView: View {
       }
     }
   }
-  
+
   private var selectionHighlight: some View {
     Group {
       if isSelected {
         RoundedRectangle(cornerRadius: 12)
           .stroke(
             LinearGradient(
-              colors: [.blue, .cyan],
+              colors: [.primary],
               startPoint: .topLeading,
               endPoint: .bottomTrailing
             ),
             lineWidth: 3
           )
           .frame(width: 48, height: 48)
-          .shadow(color: .blue.opacity(0.3), radius: 4)
+          .shadow(color: .primary, radius: 8)
           .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isSelected)
       }
     }
   }
-  
+
   private var dayLabel: String {
     let formatter = DateFormatter()
     formatter.dateFormat = "E"
@@ -499,7 +497,7 @@ struct EnhancedCalendarDayView: View {
 struct DailyShikakuCard: View {
   let level: ShikakuLevel
   let onPlay: () -> Void
-  
+
   private var gameStatus: GameStatus {
     if level.isCompleted {
       return .completed
@@ -507,10 +505,10 @@ struct DailyShikakuCard: View {
       return .new
     }
   }
-  
+
   enum GameStatus {
     case new, inProgress, completed
-    
+
     var title: String {
       switch self {
       case .new: return "Start Today's Puzzle"
@@ -518,7 +516,7 @@ struct DailyShikakuCard: View {
       case .completed: return "Completed!"
       }
     }
-    
+
     var subtitle: String {
       switch self {
       case .new: return "New puzzle available"
@@ -526,7 +524,7 @@ struct DailyShikakuCard: View {
       case .completed: return "Play again or review solution"
       }
     }
-    
+
     var icon: String {
       switch self {
       case .new: return "play.circle.fill"
@@ -534,7 +532,7 @@ struct DailyShikakuCard: View {
       case .completed: return "checkmark.circle.fill"
       }
     }
-    
+
     var color: Color {
       switch self {
       case .new: return .primary
@@ -543,7 +541,7 @@ struct DailyShikakuCard: View {
       }
     }
   }
-  
+
   var body: some View {
     Button(action: onPlay) {
       VStack(spacing: 0) {
@@ -551,39 +549,39 @@ struct DailyShikakuCard: View {
         miniGridPreview
           .padding(.top, 20)
           .padding(.horizontal, 20)
-        
+
         Spacer()
-        
+
         // Status section
         VStack(spacing: 12) {
           HStack(spacing: 12) {
             Image(systemName: gameStatus.icon)
               .font(.title2)
               .foregroundStyle(gameStatus.color)
-            
+
             VStack(alignment: .leading, spacing: 4) {
               Text(gameStatus.title)
                 .font(.headline)
                 .foregroundStyle(.primary)
-              
+
               Text(gameStatus.subtitle)
                 .font(.caption)
                 .foregroundStyle(.secondary)
             }
-            
+
             Spacer()
-            
+
             Image(systemName: "chevron.right")
               .font(.caption)
               .foregroundStyle(.secondary)
           }
-          
+
           // Difficulty indicator
           HStack {
             Text("Difficulty:")
               .font(.caption)
               .foregroundStyle(.secondary)
-            
+
             HStack(spacing: 4) {
               ForEach(1...5, id: \.self) { level in
                 Circle()
@@ -591,9 +589,9 @@ struct DailyShikakuCard: View {
                   .frame(width: 6, height: 6)
               }
             }
-            
+
             Spacer()
-            
+
             Text("\(level.gridRows)×\(level.gridCols)")
               .font(.caption)
               .foregroundStyle(.secondary)
@@ -614,29 +612,29 @@ struct DailyShikakuCard: View {
     )
     .sensoryFeedback(.impact(weight: .medium), trigger: false)
   }
-  
+
   private var miniGridPreview: some View {
     let cellSize: CGFloat = 20
     let maxDisplaySize = 8
     let displayRows = min(level.gridRows, maxDisplaySize)
     let displayCols = min(level.gridCols, maxDisplaySize)
-    
+
     return VStack(spacing: 1) {
       ForEach(0..<displayRows, id: \.self) { row in
         HStack(spacing: 1) {
           ForEach(0..<displayCols, id: \.self) { col in
             let position = GridPosition(row: row, col: col)
             let clue = level.clues.first { GridPosition(row: $0.row, col: $0.col) == position }
-            
+
             ZStack {
               Rectangle()
                 .fill(.background)
                 .frame(width: cellSize, height: cellSize)
-              
+
               Rectangle()
                 .stroke(.secondary.opacity(0.3), lineWidth: 0.5)
                 .frame(width: cellSize, height: cellSize)
-              
+
               if let clue = clue {
                 Text("\(clue.value)")
                   .font(.system(size: 10, weight: .bold))
@@ -654,19 +652,19 @@ struct DailyShikakuCard: View {
 struct NoDailyShikakuCard: View {
   let date: Date
   let onCreate: () -> Void
-  
+
   var body: some View {
     Button(action: onCreate) {
       VStack(spacing: 20) {
         Image(systemName: "plus.circle.dashed")
           .font(.system(size: 40))
           .foregroundStyle(.secondary)
-        
+
         VStack(spacing: 8) {
           Text("No puzzle for this day")
             .font(.headline)
             .foregroundStyle(.primary)
-          
+
           Text("Tap to create a new puzzle")
             .font(.caption)
             .foregroundStyle(.secondary)
@@ -685,32 +683,14 @@ struct NoDailyShikakuCard: View {
   }
 }
 
-struct StatItem: View {
-  let value: Int
-  let label: String
-  
-  var body: some View {
-    VStack(spacing: 8) {
-      Text("\(value)")
-        .font(.title)
-        .fontWeight(.medium)
-        .monospacedDigit()
-      
-      Text(label)
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .lineLimit(2)
-    }
-  }
-}
+
 
 struct LevelEditorSheet: View {
   let selectedDate: Date
   @Environment(\.dismiss) private var dismiss
   @Environment(\.modelContext) private var modelContext
   @State private var editor = LevelEditor()
-  
+
   var body: some View {
     NavigationStack {
       ShikakuLevelEditorView(editor: editor)
@@ -722,7 +702,7 @@ struct LevelEditorSheet: View {
               dismiss()
             }
           }
-          
+
           ToolbarItem(placement: .topBarTrailing) {
             Button("Save") {
               saveLevel()
@@ -734,16 +714,16 @@ struct LevelEditorSheet: View {
         }
     }
   }
-  
+
   private func saveLevel() {
     let level = ShikakuLevel.from(
       numberClues: editor.numberClues,
       date: selectedDate,
       gridSize: editor.gridSize
     )
-    
+
     level.difficulty = editor.estimateDifficulty()
-    
+
     let fetchDescriptor = FetchDescriptor<ShikakuLevel>()
     if let existingLevels = try? modelContext.fetch(fetchDescriptor) {
       for existingLevel in existingLevels {
@@ -752,7 +732,7 @@ struct LevelEditorSheet: View {
         }
       }
     }
-    
+
     modelContext.insert(level)
     try? modelContext.save()
   }

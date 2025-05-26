@@ -14,6 +14,7 @@ class ShikakuCalendarViewModel {
   var selectedDate = Date()
   var currentMonth = Date()
   var showingLevelEditor = false
+  var showingDayLabel = false
   var showLevelBuilder = false
   var showingGameView = false
   var selectedLevel: ShikakuLevel?

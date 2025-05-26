@@ -2,7 +2,7 @@
 //  ShikakuCalendarView.swift
 //  shikaku
 //
-//  Enhanced calendar view with ViewModel
+//  Enhanced calendar view with horizontal scroll and transition - Cleaned up
 //
 
 import SwiftUI
@@ -15,34 +15,40 @@ struct ShikakuCalendarView: View {
   @Query private var progress: [GameProgress]
 
   @State private var viewModel = ShikakuCalendarViewModel()
+  @State private var isHorizontalMode = true
 
   var body: some View {
     NavigationStack {
       VStack(spacing: 0) {
         headerView
 
-        ScrollView {
+        ScrollView(.vertical, showsIndicators: false) {
           VStack(spacing: 32) {
-            statsView
-            calendarView
+            if isHorizontalMode {
+              horizontalCalendarSection
+            } else {
+              fullCalendarSection
+            }
+
             dailyShikakuSection
-            Spacer()
+              .padding(.horizontal)
+
+            Spacer(minLength: 100)
           }
-          .padding()
+          .padding(.top)
         }
       }
       .background(Color(.systemBackground))
       .navigationTitle("")
-      .sheet(isPresented: $viewModel.showLevelBuilder, content: {
+      .sheet(isPresented: $viewModel.showLevelBuilder) {
         LevelBuilderView()
-      })
+      }
       .sheet(isPresented: $viewModel.showingLevelEditor) {
         LevelEditorSheet(selectedDate: viewModel.selectedDate)
           .environment(\.modelContext, modelContext)
       }
       .fullScreenCover(isPresented: $viewModel.showingGameView) {
         ZStack {
-          // Game content
           ShikakuGameView(game: viewModel.game)
             .onAppear {
               viewModel.loadSelectedLevel()
@@ -53,11 +59,9 @@ struct ShikakuCalendarView: View {
               }
             }
 
-          // Close button overlay
           VStack {
             HStack {
               Spacer()
-
               Button {
                 viewModel.showingGameView = false
               } label: {
@@ -76,7 +80,6 @@ struct ShikakuCalendarView: View {
             }
             .padding(.horizontal)
             .padding(.top, 8)
-
             Spacer()
           }
         }
@@ -91,19 +94,18 @@ struct ShikakuCalendarView: View {
 
   private var headerView: some View {
     HStack {
-      Text("Shikaku".uppercased())
-        .monospaced()
+      Image(systemName: "puzzlepiece.extension.fill")
+        .font(.title2)
+        .foregroundStyle(.primary)
+
+      Text("Shikaku")
         .font(.title)
-        .fontWeight(.thin)
+        .fontWeight(.bold)
 
       Spacer()
 
-
-      Button {
+      Button("Builder") {
         viewModel.showLevelBuilder = true
-      } label : {
-        Text("Builder")
-
       }
 
       Button {
@@ -119,92 +121,126 @@ struct ShikakuCalendarView: View {
     .padding(.top, 8)
   }
 
-  // MARK: - Stats
+  // MARK: - Calendar Sections
 
-  private var statsView: some View {
-    HStack(spacing: 40) {
-      StatItem(
-        value: currentProgress.totalCompletedLevels,
-        label: "Completed\ndays"
-      )
+  private var horizontalCalendarSection: some View {
+    VStack(spacing: 16) {
+      monthNavigationHeader(showExpandButton: true)
 
-      StatItem(
-        value: viewModel.calculateMaxPossibleStreak(levels: levels),
-        label: "Max possible\nstreak"
-      )
-
-      StatItem(
-        value: currentProgress.maxStreak,
-        label: "Best\nstreak"
-      )
+      ScrollView(.horizontal, showsIndicators: false) {
+        LazyHStack(spacing: 12) {
+          ForEach(currentMonthDays, id: \.date) { day in
+            CalendarDayView(
+              day: day,
+              isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
+              level: viewModel.levelForDate(day.date, levels: levels),
+              isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
+              colorScheme: colorScheme,
+              isCompact: true
+            ) {
+              viewModel.selectDate(day.date)
+            }
+          }
+        }
+        .padding(.horizontal)
+      }
     }
+    .transition(.asymmetric(
+      insertion: .move(edge: .top).combined(with: .opacity),
+      removal: .move(edge: .top).combined(with: .opacity)
+    ))
   }
 
-  private var currentProgress: GameProgress {
-    progress.first ?? GameProgress()
-  }
-
-  // MARK: - Calendar
-
-  private var calendarView: some View {
+  private var fullCalendarSection: some View {
     VStack(spacing: 24) {
-      monthHeader
-      calendarGrid
+      // Stats
+      HStack(spacing: 40) {
+        StatItem(value: currentProgress.totalCompletedLevels, label: "Completed\ndays")
+        StatItem(value: viewModel.calculateMaxPossibleStreak(levels: levels), label: "Max possible\nstreak")
+        StatItem(value: currentProgress.maxStreak, label: "Best\nstreak")
+      }
+
+      monthNavigationHeader(showExpandButton: false)
+
+      // Calendar grid
+      LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 7), spacing: 8) {
+        ForEach(Array(viewModel.generateCalendarDays().enumerated()), id: \.offset) { index, day in
+          CalendarDayView(
+            day: day,
+            isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
+            level: viewModel.levelForDate(day.date, levels: levels),
+            isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
+            colorScheme: colorScheme,
+            isCompact: false
+          ) {
+            viewModel.selectDate(day.date)
+          }
+        }
+      }
+      .padding(.horizontal)
     }
+    .transition(.asymmetric(
+      insertion: .move(edge: .bottom).combined(with: .opacity),
+      removal: .move(edge: .bottom).combined(with: .opacity)
+    ))
   }
 
-  private var monthHeader: some View {
+  // MARK: - Shared Components
+
+  private func monthNavigationHeader(showExpandButton: Bool) -> some View {
     HStack {
       Button {
         viewModel.navigateMonth(direction: -1)
       } label: {
         Image(systemName: "chevron.left")
           .font(.title3)
-          .foregroundStyle(.foreground)
+          .foregroundStyle(.secondary)
       }
       .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
 
       Spacer()
 
       Text(viewModel.monthTitle)
-        .font(.title2)
+        .font(showExpandButton ? .headline : .title2)
         .fontWeight(.medium)
 
       Spacer()
+
+      if showExpandButton {
+        Button {
+          withAnimation(.easeInOut(duration: 0.3)) {
+            isHorizontalMode = false
+          }
+        } label: {
+          Image(systemName: "rectangle.grid.3x2")
+            .font(.title3)
+            .foregroundStyle(.secondary)
+        }
+        .sensoryFeedback(.impact(weight: .light), trigger: !isHorizontalMode)
+      } else {
+        Button {
+          withAnimation(.easeInOut(duration: 0.3)) {
+            isHorizontalMode = true
+          }
+        } label: {
+          Image(systemName: "rectangle.compress.vertical")
+            .font(.title3)
+            .foregroundStyle(.secondary)
+        }
+        .sensoryFeedback(.impact(weight: .light), trigger: isHorizontalMode)
+      }
 
       Button {
         viewModel.navigateMonth(direction: 1)
       } label: {
         Image(systemName: "chevron.right")
           .font(.title3)
-          .foregroundStyle(.foreground)
+          .foregroundStyle(.secondary)
       }
       .sensoryFeedback(.impact(weight: .light), trigger: viewModel.currentMonth)
     }
+    .padding(.horizontal)
   }
-
-  private var calendarGrid: some View {
-    let days = viewModel.generateCalendarDays()
-    let strategicDays = viewModel.calculateStrategicDays(levels: levels)
-
-    return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 7), spacing: 8) {
-      ForEach(Array(days.enumerated()), id: \.offset) { index, day in
-        EnhancedCalendarDayView(
-          day: day,
-          isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
-          level: viewModel.levelForDate(day.date, levels: levels),
-          isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
-          colorScheme: colorScheme,
-          viewModel: viewModel,
-          levels: levels
-        ) {
-          viewModel.selectDate(day.date)
-        }
-      }
-    }
-  }
-
-  // MARK: - Daily Shikaku Section
 
   private var dailyShikakuSection: some View {
     VStack(spacing: 20) {
@@ -215,10 +251,7 @@ struct ShikakuCalendarView: View {
 
         Spacer()
 
-        // Indicateur stratégique avec priorité
-        if viewModel.calculateStrategicDays(levels: levels).contains(where: { Calendar.current.isDate($0, inSameDayAs: viewModel.selectedDate) }) {
-          let priority = viewModel.calculateStrategicPriority(for: viewModel.selectedDate, levels: levels)
-
+        if let priority = currentDayPriority {
           HStack(spacing: 6) {
             Image(systemName: priority.icon)
               .font(.caption)
@@ -260,6 +293,40 @@ struct ShikakuCalendarView: View {
     }
   }
 
+  // MARK: - Computed Properties
+
+  private var currentProgress: GameProgress {
+    progress.first ?? GameProgress()
+  }
+
+  private var strategicDays: [Date] {
+    viewModel.calculateStrategicDays(levels: levels)
+  }
+
+  private var currentMonthDays: [CalendarDay] {
+    let calendar = Calendar.current
+    let currentMonth = viewModel.currentMonth
+
+    guard let monthInterval = calendar.dateInterval(of: .month, for: currentMonth),
+          let daysInMonth = calendar.range(of: .day, in: .month, for: currentMonth) else {
+      return []
+    }
+
+    return daysInMonth.compactMap { dayNumber in
+      if let date = calendar.date(byAdding: .day, value: dayNumber - 1, to: monthInterval.start) {
+        return CalendarDay(date: date, dayNumber: dayNumber, isCurrentMonth: true)
+      }
+      return nil
+    }
+  }
+
+  private var currentDayPriority: StrategicPriority? {
+    if strategicDays.contains(where: { Calendar.current.isDate($0, inSameDayAs: viewModel.selectedDate) }) {
+      return viewModel.calculateStrategicPriority(for: viewModel.selectedDate, levels: levels)
+    }
+    return nil
+  }
+
   // MARK: - Helper Functions
 
   private func markLevelCompleted() {
@@ -268,13 +335,10 @@ struct ShikakuCalendarView: View {
     level.isCompleted = true
     level.completionTime = Date().timeIntervalSinceReferenceDate
 
-    // Update progress with new streak logic
     let fetchDescriptor = FetchDescriptor<GameProgress>()
     if let progressArray = try? modelContext.fetch(fetchDescriptor),
        let progress = progressArray.first {
       progress.totalCompletedLevels += 1
-
-      // Recalculer la streak maximale actuelle
       let newMaxStreak = viewModel.calculateCurrentMaxStreak(levels: levels)
       progress.maxStreak = max(progress.maxStreak, newMaxStreak)
       progress.lastPlayedDate = Date()
@@ -292,16 +356,15 @@ struct ShikakuCalendarView: View {
   }
 }
 
-// MARK: - Enhanced Calendar Day View
+// MARK: - Unified Calendar Day View
 
-struct EnhancedCalendarDayView: View {
+struct CalendarDayView: View {
   let day: CalendarDay
   let isSelected: Bool
   let level: ShikakuLevel?
   let isStrategic: Bool
   let colorScheme: ColorScheme
-  let viewModel: ShikakuCalendarViewModel
-  let levels: [ShikakuLevel]
+  let isCompact: Bool
   let onTap: () -> Void
 
   private var isToday: Bool {
@@ -309,7 +372,7 @@ struct EnhancedCalendarDayView: View {
   }
 
   private var dayState: DayState {
-    if !day.isCurrentMonth { return .inactive }
+    if !day.isCurrentMonth && !isCompact { return .inactive }
     if isToday { return .today }
     if level == nil { return .noLevel }
     if level?.isCompleted == true { return .completed }
@@ -323,57 +386,81 @@ struct EnhancedCalendarDayView: View {
 
   var body: some View {
     Button(action: onTap) {
-      VStack(spacing: 4) {
-        ZStack {
-          RoundedRectangle(cornerRadius: 12)
-            .fill(backgroundColor)
-            .frame(width: 45, height: 45)
-            .overlay(
-              // Indicateur stratégique
-              strategicIndicator
-            )
-            .overlay(
-              // Indicateur de sélection avec stroke animé
-              selectionHighlight
-            )
-
-          if dayState == .completed {
-            Image(systemName: "checkmark")
-              .font(.title3)
-              .fontWeight(.bold)
-              .foregroundStyle(checkmarkColor)
-          } else if day.isCurrentMonth {
-            Text("\(day.dayNumber)")
-              .font(.system(size: 16, weight: dayState == .today ? .bold : .medium))
-              .foregroundStyle(dayDateColor)
-          }
-
-          if level?.difficulty != nil && dayState != .completed {
-            VStack {
-              Spacer()
-              HStack {
-                Spacer()
-                Text("\(level?.difficulty ?? 1)/5")
-                  .font(.system(size: 8, weight: .medium))
-                  .foregroundStyle(.secondary)
-              }
-            }
-            .frame(width: 44, height: 44)
-          }
-        }
-
-        if viewModel.showingDayLabel {
-          Text(dayLabel)
-            .font(.system(size: 10, weight: .medium))
-            .foregroundStyle(.secondary)
-        }
+      if isCompact {
+        compactDayView
+      } else {
+        fullDayView
       }
-      
     }
     .buttonStyle(.plain)
-    .disabled(!day.isCurrentMonth)
+    .disabled(!day.isCurrentMonth && !isCompact)
     .sensoryFeedback(.impact(weight: .light), trigger: isSelected)
   }
+
+  private var compactDayView: some View {
+    VStack(spacing: 8) {
+      Text("\(day.dayNumber)")
+        .font(.system(size: 16, weight: isSelected ? .bold : .medium))
+        .foregroundStyle(textColor)
+        .frame(width: 36, height: 36)
+        .background(
+          Circle()
+            .fill(backgroundColor)
+            .overlay(
+              Circle()
+                .stroke(isSelected ? Color.blue : Color.clear, lineWidth: 2)
+            )
+        )
+        .overlay(strategicIndicator)
+
+      Text(dayLabel)
+        .font(.system(size: 10, weight: .medium))
+        .foregroundStyle(.secondary)
+    }
+  }
+
+  private var fullDayView: some View {
+    VStack(spacing: 4) {
+      ZStack {
+        RoundedRectangle(cornerRadius: 12)
+          .fill(backgroundColor)
+          .frame(width: 44, height: 44)
+          .overlay(progressRing)
+          .overlay(strategicIndicator)
+          .overlay(selectionHighlight)
+
+        if dayState == .completed {
+          Image(systemName: "checkmark")
+            .font(.title3)
+            .fontWeight(.bold)
+            .foregroundStyle(checkmarkColor)
+        } else if day.isCurrentMonth {
+          Text("\(day.dayNumber)")
+            .font(.system(size: 16, weight: dayState == .today ? .bold : .medium))
+            .foregroundStyle(textColor)
+        }
+
+        if level?.difficulty != nil && dayState != .completed {
+          VStack {
+            Spacer()
+            HStack {
+              Spacer()
+              Text("\(level?.difficulty ?? 1)/5")
+                .font(.system(size: 8, weight: .medium))
+                .foregroundStyle(.secondary)
+            }
+          }
+          .frame(width: 44, height: 44)
+        }
+      }
+
+      Text(dayLabel)
+        .font(.system(size: 10, weight: .medium))
+        .foregroundStyle(.secondary)
+    }
+  }
+
+  // MARK: - Shared Computed Properties
 
   private var backgroundColor: Color {
     switch dayState {
@@ -384,18 +471,18 @@ struct EnhancedCalendarDayView: View {
     case .completed:
       return Color.primary
     case .today:
-      return Color.mint.opacity(0.6)  // Couleur rouge fixe pour aujourd'hui
+      return Color.red.opacity(0.6)
     case .strategic:
       return Color.orange.opacity(0.2)
     }
   }
 
-  private var dayDateColor: Color {
+  private var textColor: Color {
     switch dayState {
     case .inactive:
       return .clear
     case .noLevel:
-      return .secondary
+      return .secondary.opacity(0.3)
     case .hasLevel:
       return .primary
     case .completed:
@@ -408,44 +495,7 @@ struct EnhancedCalendarDayView: View {
   }
 
   private var checkmarkColor: Color {
-    // Correction pour le checkmark en dark mode
     colorScheme == .dark ? .black : .white
-  }
-
-  private var progressRing: some View {
-// to check because sometime I do see the stroke progressing and sometimes not when I launcht the app.The data might not be working well
-
-    Group {
-      if let level = level, !level.isCompleted {
-        // Ring de progression basé sur le temps passé ou rectangles placés
-        let progress = calculateLevelProgress(level)
-
-        RoundedRectangle(cornerRadius: 10)
-          .trim(from: 0, to: progress)
-          .stroke(
-            LinearGradient(
-              colors: [.blue, .cyan],
-              startPoint: .topLeading,
-              endPoint: .bottomTrailing
-            ),
-            style: StrokeStyle(lineWidth: 1.5, lineCap: .round)
-          )
-          .rotationEffect(.degrees(-90))
-          .frame(width: 48, height: 48)
-          .animation(.easeInOut(duration: 0.3), value: progress)
-      }
-    }
-  }
-
-  private func calculateLevelProgress(_ level: ShikakuLevel) -> Double {
-    // Simuler une progression basée sur la difficulté et le temps depuis création
-    let daysSinceCreation = Calendar.current.dateComponents([.day], from: level.createdAt, to: Date()).day ?? 0
-    let baseProgress = min(Double(daysSinceCreation) * 0.1, 0.8) // Max 80% par le temps
-
-    // Ajouter de la randomness basée sur l'ID pour simuler une vraie progression
-    let progressSeed = Double(level.id.hashValue % 100) / 100.0 * 0.6
-
-    return min(baseProgress + progressSeed, 0.9) // Max 90%, jamais 100% sauf si complété
   }
 
   private var strategicIndicator: some View {
@@ -454,32 +504,54 @@ struct EnhancedCalendarDayView: View {
         VStack {
           HStack {
             Image(systemName: "star.fill")
-              .font(.system(size: 8))
+              .font(.system(size: isCompact ? 6 : 8))
               .foregroundStyle(.orange)
               .shadow(color: .orange.opacity(0.3), radius: 2)
             Spacer()
           }
           Spacer()
         }
-        .frame(width: 44, height: 44)
+        .frame(width: isCompact ? 36 : 44, height: isCompact ? 36 : 44)
+      }
+    }
+  }
+
+  private var progressRing: some View {
+    Group {
+      if let level = level, !level.isCompleted && !isCompact {
+        let progress = calculateLevelProgress(level)
+
+        Circle()
+          .trim(from: 0, to: progress)
+          .stroke(
+            LinearGradient(
+              colors: [.blue, .cyan],
+              startPoint: .topLeading,
+              endPoint: .bottomTrailing
+            ),
+            style: StrokeStyle(lineWidth: 2.5, lineCap: .round)
+          )
+          .rotationEffect(.degrees(-90))
+          .frame(width: 48, height: 48)
+          .animation(.easeInOut(duration: 0.3), value: progress)
       }
     }
   }
 
   private var selectionHighlight: some View {
     Group {
-      if isSelected {
+      if isSelected && !isCompact {
         RoundedRectangle(cornerRadius: 12)
           .stroke(
             LinearGradient(
-              colors: [.primary],
+              colors: [.blue, .cyan],
               startPoint: .topLeading,
               endPoint: .bottomTrailing
             ),
             lineWidth: 3
           )
           .frame(width: 48, height: 48)
-          .shadow(color: .primary, radius: 8)
+          .shadow(color: .blue.opacity(0.3), radius: 4)
           .animation(.easeInOut(duration: 2).repeatForever(autoreverses: true), value: isSelected)
       }
     }
@@ -488,7 +560,14 @@ struct EnhancedCalendarDayView: View {
   private var dayLabel: String {
     let formatter = DateFormatter()
     formatter.dateFormat = "E"
-    return day.isCurrentMonth ? formatter.string(from: day.date) : ""
+    return day.isCurrentMonth || isCompact ? formatter.string(from: day.date) : ""
+  }
+
+  private func calculateLevelProgress(_ level: ShikakuLevel) -> Double {
+    let daysSinceCreation = Calendar.current.dateComponents([.day], from: level.createdAt, to: Date()).day ?? 0
+    let baseProgress = min(Double(daysSinceCreation) * 0.1, 0.8)
+    let progressSeed = Double(level.id.hashValue % 100) / 100.0 * 0.6
+    return min(baseProgress + progressSeed, 0.9)
   }
 }
 
@@ -499,20 +578,15 @@ struct DailyShikakuCard: View {
   let onPlay: () -> Void
 
   private var gameStatus: GameStatus {
-    if level.isCompleted {
-      return .completed
-    } else {
-      return .new
-    }
+    level.isCompleted ? .completed : .new
   }
 
   enum GameStatus {
-    case new, inProgress, completed
+    case new, completed
 
     var title: String {
       switch self {
       case .new: return "Start Today's Puzzle"
-      case .inProgress: return "Continue Puzzle"
       case .completed: return "Completed!"
       }
     }
@@ -520,7 +594,6 @@ struct DailyShikakuCard: View {
     var subtitle: String {
       switch self {
       case .new: return "New puzzle available"
-      case .inProgress: return "Pick up where you left off"
       case .completed: return "Play again or review solution"
       }
     }
@@ -528,7 +601,6 @@ struct DailyShikakuCard: View {
     var icon: String {
       switch self {
       case .new: return "play.circle.fill"
-      case .inProgress: return "clock.circle.fill"
       case .completed: return "checkmark.circle.fill"
       }
     }
@@ -536,7 +608,6 @@ struct DailyShikakuCard: View {
     var color: Color {
       switch self {
       case .new: return .primary
-      case .inProgress: return .orange
       case .completed: return .green
       }
     }
@@ -545,14 +616,12 @@ struct DailyShikakuCard: View {
   var body: some View {
     Button(action: onPlay) {
       VStack(spacing: 0) {
-        // Mini grid preview
         miniGridPreview
           .padding(.top, 20)
           .padding(.horizontal, 20)
 
         Spacer()
 
-        // Status section
         VStack(spacing: 12) {
           HStack(spacing: 12) {
             Image(systemName: gameStatus.icon)
@@ -576,7 +645,6 @@ struct DailyShikakuCard: View {
               .foregroundStyle(.secondary)
           }
 
-          // Difficulty indicator
           HStack {
             Text("Difficulty:")
               .font(.caption)
@@ -598,10 +666,7 @@ struct DailyShikakuCard: View {
           }
         }
         .padding(20)
-        .background(
-          Rectangle()
-            .fill(.ultraThinMaterial)
-        )
+        .background(Rectangle().fill(.ultraThinMaterial))
       }
     }
     .buttonStyle(.plain)
@@ -683,7 +748,25 @@ struct NoDailyShikakuCard: View {
   }
 }
 
+struct StatItem: View {
+  let value: Int
+  let label: String
 
+  var body: some View {
+    VStack(spacing: 8) {
+      Text("\(value)")
+        .font(.title)
+        .fontWeight(.medium)
+        .monospacedDigit()
+
+      Text(label)
+        .font(.caption)
+        .foregroundStyle(.secondary)
+        .multilineTextAlignment(.center)
+        .lineLimit(2)
+    }
+  }
+}
 
 struct LevelEditorSheet: View {
   let selectedDate: Date

@@ -33,14 +33,12 @@ class ShikakuGame {
   private var colorIndex = 0
 
   // Haptic generators
-  private let lightImpact = UIImpactFeedbackGenerator(style: .light)
-  private let heavyImpact = UIImpactFeedbackGenerator(style: .heavy)
+  private let lightImpact = UIImpactFeedbackGenerator(style: .soft)
   private let notificationFeedback = UINotificationFeedbackGenerator()
 
   init() {
     // Prepare haptics for better performance
     lightImpact.prepare()
-    heavyImpact.prepare()
     notificationFeedback.prepare()
 
     generateScreenshotLevel()
@@ -176,7 +174,8 @@ class ShikakuGame {
   }
 
   func triggerWinHaptic() {
-    heavyImpact.impactOccurred()
+    lightImpact.impactOccurred()
+    lightImpact.impactOccurred()
   }
 
   private func isGridFullyCovered() -> Bool {
@@ -192,4 +191,3 @@ class ShikakuGame {
     return true
   }
 }
-

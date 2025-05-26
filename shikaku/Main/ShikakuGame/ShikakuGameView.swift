@@ -2,7 +2,7 @@
 //  ShikakuGameView.swift
 //  shikaku
 //
-//  Updated game view to work with both calendar and standalone modes
+//  Updated game view with single tile selection and responsive grid
 //
 
 import SwiftUI
@@ -20,32 +20,33 @@ struct ShikakuGameView: View {
     @State private var showClearConfirmation = false
     @State private var showingCalendar = false
 
-    let cellSize: CGFloat = 60
-    let cornerRadius: CGFloat = 16
-    let cellSpacing: CGFloat = 4
+    // Responsive grid properties
+    private let cornerRadius: CGFloat = 16
+    private let cellSpacing: CGFloat = 4
+    private let minCellSize: CGFloat = 40
+    private let maxCellSize: CGFloat = 80
+    private let gridPadding: CGFloat = 20
 
     init(game: ShikakuGame = ShikakuGame()) {
         self._game = State(initialValue: game)
     }
 
     var body: some View {
-        ZStack {
-            // Background adaptatif
-            adaptiveBackgroundColor.ignoresSafeArea()
+        GeometryReader { geometry in
+            ZStack {
+                adaptiveBackgroundColor.ignoresSafeArea()
 
-            VStack(spacing: 20) {
-                headerView
+                VStack(spacing: 20) {
+                    headerView
 
-                Spacer()
+                    Spacer()
 
-                gameGridSection
-                .containerRelativeFrame([.horizontal, .vertical]) { length, axis in
-                    axis == .vertical ? length * 0.6 : length * 0.9
+                    gameGridSection(in: geometry)
+
+                    Spacer()
+
+                    bottomSection
                 }
-
-                Spacer()
-
-                bottomSection
             }
         }
         .sheet(isPresented: $showingCalendar) {
@@ -53,7 +54,24 @@ struct ShikakuGameView: View {
         }
     }
 
-    // MARK: - Couleurs et styles adaptatifs
+    // MARK: - Responsive Grid Calculation
+
+    private func calculateCellSize(in geometry: GeometryProxy) -> CGFloat {
+        let availableWidth = geometry.size.width - (gridPadding * 2)
+        let availableHeight = geometry.size.height * 0.6 - (gridPadding * 2)
+
+        let totalSpacingWidth = CGFloat(game.gridSize.cols - 1) * cellSpacing
+        let totalSpacingHeight = CGFloat(game.gridSize.rows - 1) * cellSpacing
+
+        let maxCellWidth = (availableWidth - totalSpacingWidth) / CGFloat(game.gridSize.cols)
+        let maxCellHeight = (availableHeight - totalSpacingHeight) / CGFloat(game.gridSize.rows)
+
+        let calculatedSize = min(maxCellWidth, maxCellHeight)
+
+        return max(minCellSize, min(maxCellSize, calculatedSize))
+    }
+
+    // MARK: - Adaptive Colors
 
     private var adaptiveBackgroundColor: Color {
         colorScheme == .dark ? .black : Color(.systemBackground)
@@ -74,12 +92,16 @@ struct ShikakuGameView: View {
     }
 
     private var adaptiveGlowColor: Color {
-        colorScheme == .dark ?
-            Color.white :
-            Color.black
+        colorScheme == .dark ? Color.white : Color.black
     }
 
-    // MARK: - Sous-vues décomposées (gardées identiques)
+    private var adaptiveStripeColor: Color {
+        colorScheme == .dark ?
+            Color.white.opacity(0.15) :
+            Color.black.opacity(0.08)
+    }
+
+    // MARK: - Header
 
     private var headerView: some View {
         HStack {
@@ -118,9 +140,13 @@ struct ShikakuGameView: View {
         .padding(.horizontal)
     }
 
-    private var gameGridSection: some View {
-        VStack {
-            gameGrid
+    // MARK: - Game Grid Section
+
+    private func gameGridSection(in geometry: GeometryProxy) -> some View {
+        let cellSize = calculateCellSize(in: geometry)
+
+        return VStack {
+            gameGrid(cellSize: cellSize)
                 .onChange(of: game.isGameComplete) { oldValue, newValue in
                     if newValue && !oldValue {
                         triggerVictoryAnimation()
@@ -129,143 +155,21 @@ struct ShikakuGameView: View {
         }
     }
 
-    private var bottomSection: some View {
-        VStack(spacing: 20) {
-            // Plus de texte simple - l'animation se passe sur la grille
-            clearButton
-        }
-    }
-
-    // MARK: - Victory Animation (simplifié)
-
-    private func triggerVictoryAnimation() {
-        // Haptic feedback de victoire
-        game.triggerWinHaptic()
-
-        // Animation de glow simple sur toutes les tiles
-        gameWon = true
-
-        // Reset après 2 secondes
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-            gameWon = false
-        }
-    }
-
-    private var clearButton: some View {
-        HStack(spacing: 0) {
-            if showClearConfirmation {
-                Button {
-                    withAnimation(.spring(duration: 0.4, bounce: 0.3)) {
-                        showClearConfirmation = false
-                    }
-                } label: {
-                    Text("Cancel")
-                        .font(.headline)
-                        .foregroundColor(adaptiveSecondaryTextColor)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(
-                            Rectangle()
-                                .fill(Color.clear)
-                                .overlay(
-                                    HStack {
-                                        Rectangle()
-                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
-                                            .frame(width: 0)
-                                        Spacer()
-                                        Rectangle()
-                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
-                                            .frame(width: 1)
-                                            .frame(height: 10)
-                                    }
-                                )
-                        )
-                }
-                .sensoryFeedback(.impact(weight: .light), trigger: !showClearConfirmation)
-                .transition(.asymmetric(
-                    insertion: .move(edge: .leading).combined(with: .opacity),
-                    removal: .move(edge: .leading).combined(with: .opacity)
-                ))
-
-                // Clear button
-                Button {
-                    withAnimation(.bouncy) {
-                        game.clearBoard()
-                        currentSelectionSize = 0
-                        showClearConfirmation = false
-                        // Reset animation
-                        gameWon = false
-                    }
-                } label: {
-                    Text("Clear")
-                        .font(.headline)
-                        .foregroundColor(.red)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .background(
-                            Rectangle()
-                                .fill(Color.clear)
-                                .overlay(
-                                    HStack {
-                                        Spacer()
-                                        Rectangle()
-                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
-                                            .frame(width: 0)
-                                    }
-                                )
-                        )
-                }
-                .sensoryFeedback(.impact(weight: .medium), trigger: game.rectangles.isEmpty)
-                .transition(.asymmetric(
-                    insertion: .move(edge: .trailing).combined(with: .opacity),
-                    removal: .move(edge: .trailing).combined(with: .opacity)
-                ))
-            } else {
-                // Single clear board button
-                Button {
-                    withAnimation(.spring(duration: 0.4, bounce: 0.3)) {
-                        showClearConfirmation = true
-                    }
-                } label: {
-                    Text("Clear board")
-                        .font(.headline)
-                        .foregroundColor(adaptiveSecondaryTextColor)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 30)
-                }
-                .sensoryFeedback(.impact(weight: .light), trigger: showClearConfirmation)
-                .transition(.asymmetric(
-                    insertion: .scale.combined(with: .opacity),
-                    removal: .scale.combined(with: .opacity)
-                ))
-            }
-        }
-        .background(
-            RoundedRectangle(cornerRadius: 0)
-                .stroke(adaptiveSecondaryTextColor.opacity(0.5), lineWidth: 1)
-        )
-        .clipShape(RoundedRectangle(cornerRadius: 0))
-        .padding(.bottom, 30)
-        .frame(maxWidth: 200)
-    }
-
-    // MARK: - Modern Game Grid
-
-    private var gameGrid: some View {
+    private func gameGrid(cellSize: CGFloat) -> some View {
         VStack(spacing: cellSpacing) {
             ForEach(0..<game.gridSize.rows, id: \.self) { row in
                 HStack(spacing: cellSpacing) {
                     ForEach(0..<game.gridSize.cols, id: \.self) { col in
-                        modernCellView(row: row, col: col)
+                        modernCellView(row: row, col: col, cellSize: cellSize)
                     }
                 }
             }
         }
         .background(Color.clear)
-        .gesture(dragGesture)
+        .gesture(dragGesture(cellSize: cellSize))
     }
 
-    private func modernCellView(row: Int, col: Int) -> some View {
+    private func modernCellView(row: Int, col: Int, cellSize: CGFloat) -> some View {
         let position = GridPosition(row: row, col: col)
         let numberClue = game.numberClues.first { $0.position == position }
         let containingRect = game.rectangles.first { $0.contains(position: position) }
@@ -273,12 +177,11 @@ struct ShikakuGameView: View {
         let isStartCell = dragStart == position && !isDragging
 
         return ZStack {
-            // Base cell avec corners arrondis
+            // Base cell
             RoundedRectangle(cornerRadius: cornerRadius)
                 .fill(cellBackgroundColor(containingRect: containingRect, isInPreview: isInPreview, isStartCell: isStartCell))
                 .frame(width: cellSize, height: cellSize)
                 .overlay(
-                    // Effet de glow de victoire - apparaît et reste
                     RoundedRectangle(cornerRadius: cornerRadius)
                         .stroke(adaptiveGlowColor, lineWidth: gameWon ? 2 : 0)
                         .opacity(gameWon ? 0.8 : 0)
@@ -290,21 +193,22 @@ struct ShikakuGameView: View {
                 )
                 .animation(.easeInOut(duration: 0.6), value: gameWon)
 
-            // Contour de la zone en cours de sélection
+            // Preview border
             if isInPreview && isDragging {
-                previewBorderOverlay(for: position)
+                previewBorderOverlay(for: position, cellSize: cellSize)
             }
 
-            // Stripe pattern for invalid preview (seulement si invalide)
+            // Invalid preview stripes
             if isInPreview && !previewValidation.isValid && isDragging {
-                stripePattern
+                stripePattern(cellSize: cellSize)
                     .clipShape(RoundedRectangle(cornerRadius: cornerRadius))
                     .frame(width: cellSize, height: cellSize)
             }
 
+            // Number clue
             if let clue = numberClue {
                 Text("\(clue.value)")
-                    .font(.system(size: 26, weight: .bold))
+                    .font(.system(size: min(cellSize * 0.4, 26), weight: .bold))
                     .foregroundColor(numberClueTextColor(containingRect: containingRect, isInPreview: isInPreview, isStartCell: isStartCell))
             }
         }
@@ -314,15 +218,14 @@ struct ShikakuGameView: View {
         .sensoryFeedback(.impact(weight: .light), trigger: game.rectangles.count)
     }
 
+    // MARK: - Cell Styling
+
     private func cellBackgroundColor(containingRect: GameRectangle?, isInPreview: Bool, isStartCell: Bool) -> Color {
         if isStartCell {
-            // Cellule de départ activée mais pas encore en drag
             return Color(red: 0.4, green: 0.5, blue: 0.9).opacity(0.4)
         } else if isInPreview && isDragging {
-            // Zone en cours de sélection - transparent pour voir le contour
             return adaptiveCellBackgroundColor
         } else if let rect = containingRect, rect.isValid {
-            // Rectangle validé - couleur pleine
             return rect.color.opacity(0.8)
         } else {
             return adaptiveCellBackgroundColor
@@ -331,15 +234,15 @@ struct ShikakuGameView: View {
 
     private func numberClueTextColor(containingRect: GameRectangle?, isInPreview: Bool, isStartCell: Bool) -> Color {
         if isStartCell || (containingRect != nil && containingRect!.isValid) {
-            return .white // Blanc sur fond coloré
+            return .white
         } else {
-            return adaptiveTextColor // Couleur adaptative sur fond neutre
+            return adaptiveTextColor
         }
     }
 
-    // MARK: - Preview Border Overlay
+    // MARK: - Preview Border
 
-    private func previewBorderOverlay(for position: GridPosition) -> some View {
+    private func previewBorderOverlay(for position: GridPosition, cellSize: CGFloat) -> some View {
         guard let start = dragStart, let end = dragEnd else {
             return AnyView(EmptyView())
         }
@@ -353,7 +256,6 @@ struct ShikakuGameView: View {
             col: max(start.col, end.col)
         )
 
-        // Toujours bleu, pas de rouge
         let borderColor = Color(red: 0.4, green: 0.5, blue: 0.9)
         let borderWidth: CGFloat = 3
 
@@ -403,7 +305,7 @@ struct ShikakuGameView: View {
         )
     }
 
-    private var stripePattern: some View {
+    private func stripePattern(cellSize: CGFloat) -> some View {
         GeometryReader { geometry in
             Path { path in
                 let width = geometry.size.width
@@ -411,7 +313,6 @@ struct ShikakuGameView: View {
                 let stripeWidth: CGFloat = 6
                 let spacing: CGFloat = 6
 
-                // Lignes diagonales plus fines et plus espacées
                 var x: CGFloat = -height
                 while x < width + height {
                     path.move(to: CGPoint(x: x, y: 0))
@@ -427,35 +328,30 @@ struct ShikakuGameView: View {
         }
     }
 
-    private var adaptiveStripeColor: Color {
-        colorScheme == .dark ?
-            Color.white.opacity(0.15) :
-            Color.black.opacity(0.08)
-    }
+    // MARK: - Drag Gesture (Updated for Single Tile Selection)
 
-    private var dragGesture: some Gesture {
+    private func dragGesture(cellSize: CGFloat) -> some Gesture {
         DragGesture(minimumDistance: 0, coordinateSpace: .local)
             .onChanged { value in
                 if !isDragging {
-                    // Début du drag - activation immédiate de la première cellule
-                    let startPos = positionFromLocation(value.startLocation)
+                    // Start of drag
+                    let startPos = positionFromLocation(value.startLocation, cellSize: cellSize)
                     dragStart = startPos
-                    dragEnd = startPos // Important : même position au début
+                    dragEnd = startPos
 
                     if startPos != nil {
-                        // Haptic feedback immédiat
                         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
                         impactFeedback.impactOccurred()
                         currentSelectionSize = 1
 
-                        // Marquer comme en cours de drag après un petit délai
+                        // Mark as dragging after small delay
                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) {
                             self.isDragging = true
                         }
                     }
                 } else {
-                    // Drag en cours - mise à jour de la position finale
-                    let currentPos = positionFromLocation(value.location)
+                    // Ongoing drag
+                    let currentPos = positionFromLocation(value.location, cellSize: cellSize)
 
                     if let newEnd = currentPos, newEnd != dragEnd {
                         dragEnd = newEnd
@@ -470,7 +366,7 @@ struct ShikakuGameView: View {
             }
     }
 
-    private func positionFromLocation(_ location: CGPoint) -> GridPosition? {
+    private func positionFromLocation(_ location: CGPoint, cellSize: CGFloat) -> GridPosition? {
         let adjustedX = location.x + cellSpacing / 2
         let adjustedY = location.y + cellSpacing / 2
 
@@ -500,7 +396,7 @@ struct ShikakuGameView: View {
         previewValidation = game.validatePreviewRectangle(from: start, to: end)
     }
 
-    func handleDragEnd() {
+    private func handleDragEnd() {
         guard let start = dragStart, let end = dragEnd else {
             resetDragState()
             return
@@ -510,7 +406,7 @@ struct ShikakuGameView: View {
         let feedbackGenerator = UINotificationFeedbackGenerator()
         feedbackGenerator.notificationOccurred(previewValidation.isValid ? .success : .error)
 
-        // Only add rectangle if preview was valid
+        // Add rectangle if preview was valid (including single tile)
         if previewValidation.isValid {
             game.addOrUpdateRectangle(from: start, to: end)
         }
@@ -527,11 +423,7 @@ struct ShikakuGameView: View {
         dragLocation = .zero
     }
 
-    func handleDrag(location: CGPoint, startLocation: CGPoint, isStart: Bool) {
-        // Cette fonction n'est plus utilisée - remplacée par le nouveau dragGesture
-    }
-
-    func isPositionInPreviewRectangle(_ position: GridPosition) -> Bool {
+    private func isPositionInPreviewRectangle(_ position: GridPosition) -> Bool {
         guard let start = dragStart, let end = dragEnd else { return false }
 
         let topLeft = GridPosition(
@@ -545,6 +437,120 @@ struct ShikakuGameView: View {
 
         return position.row >= topLeft.row && position.row <= bottomRight.row &&
         position.col >= topLeft.col && position.col <= bottomRight.col
+    }
+
+    // MARK: - Victory Animation
+
+    private func triggerVictoryAnimation() {
+        game.triggerWinHaptic()
+        gameWon = true
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            gameWon = false
+        }
+    }
+
+    // MARK: - Bottom Section
+
+    private var bottomSection: some View {
+        VStack(spacing: 20) {
+            clearButton
+        }
+    }
+
+    private var clearButton: some View {
+        HStack(spacing: 0) {
+            if showClearConfirmation {
+                Button {
+                    withAnimation(.spring(duration: 0.4, bounce: 0.3)) {
+                        showClearConfirmation = false
+                    }
+                } label: {
+                    Text("Cancel")
+                        .font(.headline)
+                        .foregroundColor(adaptiveSecondaryTextColor)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            Rectangle()
+                                .fill(Color.clear)
+                                .overlay(
+                                    HStack {
+                                        Rectangle()
+                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
+                                            .frame(width: 0)
+                                        Spacer()
+                                        Rectangle()
+                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
+                                            .frame(width: 1)
+                                            .frame(height: 10)
+                                    }
+                                )
+                        )
+                }
+                .sensoryFeedback(.impact(weight: .light), trigger: !showClearConfirmation)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .leading).combined(with: .opacity),
+                    removal: .move(edge: .leading).combined(with: .opacity)
+                ))
+
+                Button {
+                    withAnimation(.bouncy) {
+                        game.clearBoard()
+                        currentSelectionSize = 0
+                        showClearConfirmation = false
+                        gameWon = false
+                    }
+                } label: {
+                    Text("Clear")
+                        .font(.headline)
+                        .foregroundColor(.red)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(
+                            Rectangle()
+                                .fill(Color.clear)
+                                .overlay(
+                                    HStack {
+                                        Spacer()
+                                        Rectangle()
+                                            .fill(adaptiveSecondaryTextColor.opacity(0.5))
+                                            .frame(width: 0)
+                                    }
+                                )
+                        )
+                }
+                .sensoryFeedback(.impact(weight: .medium), trigger: game.rectangles.isEmpty)
+                .transition(.asymmetric(
+                    insertion: .move(edge: .trailing).combined(with: .opacity),
+                    removal: .move(edge: .trailing).combined(with: .opacity)
+                ))
+            } else {
+                Button {
+                    withAnimation(.spring(duration: 0.4, bounce: 0.3)) {
+                        showClearConfirmation = true
+                    }
+                } label: {
+                    Text("Clear board")
+                        .font(.headline)
+                        .foregroundColor(adaptiveSecondaryTextColor)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 30)
+                }
+                .sensoryFeedback(.impact(weight: .light), trigger: showClearConfirmation)
+                .transition(.asymmetric(
+                    insertion: .scale.combined(with: .opacity),
+                    removal: .scale.combined(with: .opacity)
+                ))
+            }
+        }
+        .background(
+            RoundedRectangle(cornerRadius: 0)
+                .stroke(adaptiveSecondaryTextColor.opacity(0.5), lineWidth: 1)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 0))
+        .padding(.bottom, 30)
+        .frame(maxWidth: 200)
     }
 }
 

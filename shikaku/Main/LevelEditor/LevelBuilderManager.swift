@@ -561,9 +561,6 @@ struct LevelBuilderView: View {
             ZStack {
                 // Game content
                 ShikakuGameView(game: testGame)
-                    .onAppear {
-                        // Game is already loaded in loadLevelIntoGame
-                    }
 
                 // Close button overlay
                 VStack {
@@ -613,7 +610,11 @@ struct LevelBuilderView: View {
         }
     }
 
+    // FIXED: Properly load level data into the game
     private func loadLevelIntoGame(_ level: ExportableLevel) {
+        // Create a completely new game instance
+        testGame = ShikakuGame()
+
         // Configure the test game with the selected level
         testGame.gridSize = (level.gridRows, level.gridCols)
         testGame.numberClues = level.clues.map { clue in
@@ -905,7 +906,7 @@ struct LevelMiniGrid: View {
     let level: ExportableLevel
 
     var body: some View {
-      let cellSize: CGFloat = CGFloat(60 / max(level.gridRows, level.gridCols))
+        let cellSize: CGFloat = CGFloat(60 / max(level.gridRows, level.gridCols))
 
         VStack(spacing: 0.5) {
             ForEach(0..<level.gridRows, id: \.self) { row in

@@ -1,8 +1,6 @@
 //
-//  LevelBuilderTools.swift
+//  LevelBuilderManager.swift - Fixed version
 //  shikaku
-//
-//  Tools for building and exporting levels
 //
 
 import SwiftUI
@@ -439,6 +437,7 @@ struct ExportableClue: Codable {
 
 struct LevelBuilderView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss // Fixed: Add dismiss environment
     @State private var builderManager = LevelBuilderManager()
     @State private var showingExportSheet = false
     @State private var showingImportSheet = false
@@ -448,7 +447,7 @@ struct LevelBuilderView: View {
     @State private var showingGeneratedLevels = false
     @State private var showingGameView = false
     @State private var selectedLevelToPlay: ExportableLevel?
-    @State private var testGame = ShikakuGame()
+    @State private var testGameSession: GameSession? // Fixed: Use GameSession instead of ShikakuGame
 
     var body: some View {
         NavigationStack {
@@ -536,6 +535,13 @@ struct LevelBuilderView: View {
             }
             .padding()
             .navigationTitle("Level Builder")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showingExportSheet) {
             ExportDataSheet(data: exportedData)
@@ -558,53 +564,56 @@ struct LevelBuilderView: View {
             )
         }
         .fullScreenCover(isPresented: $showingGameView) {
-            ZStack {
-                // Game content
-              ShikakuGameView(session: testGame)
+            if let session = testGameSession {
+                ZStack {
+                    // Game content
+                    ShikakuGameView(session: session)
 
-                // Close button overlay
-                VStack {
-                    HStack {
-                        // Level info
-                        if let currentLevel = selectedLevelToPlay {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text("Test Level")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                                Text("Difficulty \(currentLevel.difficulty) • \(currentLevel.gridRows)×\(currentLevel.gridCols)")
-                                    .font(.caption2)
-                                    .foregroundStyle(.tertiary)
+                    // Close button overlay
+                    VStack {
+                        HStack {
+                            // Level info
+                            if let currentLevel = selectedLevelToPlay {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Test Level")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                    Text("Difficulty \(currentLevel.difficulty) • \(currentLevel.gridRows)×\(currentLevel.gridCols)")
+                                        .font(.caption2)
+                                        .foregroundStyle(.tertiary)
+                                }
+                                .padding(.horizontal, 12)
+                                .padding(.vertical, 6)
+                                .background(
+                                    Capsule()
+                                        .fill(.ultraThinMaterial)
+                                )
                             }
-                            .padding(.horizontal, 12)
-                            .padding(.vertical, 6)
-                            .background(
-                                Capsule()
-                                    .fill(.ultraThinMaterial)
-                            )
+
+                            Spacer()
+
+                            Button {
+                                showingGameView = false
+                                testGameSession = nil
+                            } label: {
+                                Image(systemName: "xmark")
+                                    .font(.title2)
+                                    .fontWeight(.medium)
+                                    .foregroundStyle(.primary)
+                                    .frame(width: 32, height: 32)
+                                    .background(
+                                        Circle()
+                                            .fill(.ultraThinMaterial)
+                                            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                                    )
+                            }
+                            .sensoryFeedback(.impact(weight: .light), trigger: false)
                         }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
 
                         Spacer()
-
-                        Button {
-                            showingGameView = false
-                        } label: {
-                            Image(systemName: "xmark")
-                                .font(.title2)
-                                .fontWeight(.medium)
-                                .foregroundStyle(.primary)
-                                .frame(width: 32, height: 32)
-                                .background(
-                                    Circle()
-                                        .fill(.ultraThinMaterial)
-                                        .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
-                                )
-                        }
-                        .sensoryFeedback(.impact(weight: .light), trigger: false)
                     }
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-
-                    Spacer()
                 }
             }
         }
@@ -612,19 +621,21 @@ struct LevelBuilderView: View {
 
     // FIXED: Properly load level data into the game
     private func loadLevelIntoGame(_ level: ExportableLevel) {
-        // Create a completely new game instance
-        testGame = ShikakuGame()
+        // Create a ShikakuLevel from ExportableLevel
+        let shikakuLevel = ShikakuLevel(
+            date: level.date,
+            gridRows: level.gridRows,
+            gridCols: level.gridCols,
+            difficulty: level.difficulty
+        )
 
-        // Configure the test game with the selected level
-        testGame.gridSize = (level.gridRows, level.gridCols)
-        testGame.numberClues = level.clues.map { clue in
-            NumberClue(
-                position: GridPosition(row: clue.row, col: clue.col),
-                value: clue.value
-            )
+        let levelClues = level.clues.map { clue in
+            LevelClue(row: clue.row, col: clue.col, value: clue.value)
         }
-        testGame.rectangles = []
-        testGame.validateGame()
+        shikakuLevel.clues = levelClues
+
+        // Create a GameSession
+        testGameSession = GameSession(level: shikakuLevel, context: .custom)
     }
 
     private var headerSection: some View {
@@ -972,7 +983,388 @@ struct DifficultyBadge: View {
     }
 }
 
-#Preview {
-    LevelBuilderView()
-        .modelContainer(for: [ShikakuLevel.self, GameProgress.self, LevelClue.self])
-}
+//
+//  PracticeModeView.swift - Fixed version
+//  shikaku
+//
+
+//struct PracticeModeView: View {
+//  @Environment(\.dismiss) private var dismiss
+//  @Environment(\.modelContext) private var modelContext
+//  @Environment(AppCoordinator.self) private var coordinator // Fixed: Properly access coordinator
+//
+//  let levels: [ShikakuLevel]
+//
+//  @State private var selectedDifficulty: Int = 0 // 0 = all difficulties
+//  @State private var completedInSession = 0
+//  @State private var sessionStartTime = Date()
+//
+//  // Filter levels by difficulty (0 = all)
+//  private var availableLevels: [ShikakuLevel] {
+//    if selectedDifficulty == 0 {
+//      return levels
+//    }
+//    return levels.filter { $0.difficulty == selectedDifficulty }
+//  }
+//
+//  // Get a random level that hasn't been completed (or any if all completed)
+//  private var nextRandomLevel: ShikakuLevel? {
+//    let uncompletedLevels = availableLevels.filter { !$0.isCompleted }
+//
+//    if !uncompletedLevels.isEmpty {
+//      return uncompletedLevels.randomElement()
+//    } else {
+//      // If all levels completed, pick any random level
+//      return availableLevels.randomElement()
+//    }
+//  }
+//
+//  var body: some View {
+//    VStack(spacing: 0) {
+//      // Header
+//      headerSection
+//        .padding(.horizontal)
+//        .padding(.top)
+//
+//      ScrollView {
+//        VStack(spacing: 32) {
+//          // Difficulty selection
+//          difficultySelection
+//            .padding(.horizontal)
+//
+//          // Stats overview
+//          if !availableLevels.isEmpty {
+//            statsOverview
+//              .padding(.horizontal)
+//          }
+//
+//          // Practice controls
+//          if availableLevels.isEmpty {
+//            noLevelsView
+//              .padding(.horizontal)
+//          } else {
+//            practiceControls
+//              .padding(.horizontal)
+//          }
+//
+//          // Session stats (only show if session active)
+//          if completedInSession > 0 || Date().timeIntervalSince(sessionStartTime) > 60 {
+//            sessionStatsSection
+//              .padding(.horizontal)
+//          }
+//
+//          Spacer(minLength: 100)
+//        }
+//        .padding(.vertical, 32)
+//      }
+//    }
+//    .background(Color(.systemBackground))
+//    .navigationTitle("")
+//    .navigationBarBackButtonHidden()
+//    .toolbar {
+//      ToolbarItem(placement: .topBarLeading) {
+//        Button {
+//          dismiss()
+//        } label: {
+//          HStack(spacing: 6) {
+//            Image(systemName: "chevron.left")
+//              .font(.caption)
+//              .fontWeight(.medium)
+//            Text("Back")
+//              .font(.body)
+//          }
+//          .foregroundStyle(.primary)
+//        }
+//      }
+//    }
+//    .onAppear {
+//      sessionStartTime = Date()
+//    }
+//    .onChange(of: coordinator.presentedFullScreen) { _, fullScreen in
+//      // Handle game completion when returning from full screen
+//      if fullScreen == nil {
+//        handlePotentialGameCompletion()
+//      }
+//    }
+//  }
+//
+//  // MARK: - Views
+//
+//  private var headerSection: some View {
+//    VStack(spacing: 16) {
+//      Text("Practice")
+//        .font(.largeTitle)
+//        .fontWeight(.bold)
+//
+//      Text("Random puzzles to sharpen your skills")
+//        .font(.subheadline)
+//        .foregroundStyle(.secondary)
+//        .multilineTextAlignment(.center)
+//    }
+//  }
+//
+//  private var difficultySelection: some View {
+//    VStack(spacing: 20) {
+//      Text("Difficulty")
+//        .font(.headline)
+//
+//      LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 3), spacing: 12) {
+//        // All difficulties option
+//        DifficultyCard(
+//          title: "Random",
+//          subtitle: "All levels",
+//          count: levels.count,
+//          isSelected: selectedDifficulty == 0,
+//          color: .primary
+//        ) {
+//          withAnimation(.easeInOut(duration: 0.2)) {
+//            selectedDifficulty = 0
+//          }
+//        }
+//
+//        // Individual difficulties
+//        ForEach(1...5, id: \.self) { difficulty in
+//          let count = levels.filter { $0.difficulty == difficulty }.count
+//          DifficultyCard(
+//            title: "Level \(difficulty)",
+//            subtitle: difficultyName(difficulty),
+//            count: count,
+//            isSelected: selectedDifficulty == difficulty,
+//            color: difficultyColor(difficulty)
+//          ) {
+//            withAnimation(.easeInOut(duration: 0.2)) {
+//              selectedDifficulty = difficulty
+//            }
+//          }
+//        }
+//      }
+//    }
+//  }
+//
+//  private var statsOverview: some View {
+//    HStack(spacing: 0) {
+//      StatItem(
+//        value: availableLevels.count,
+//        label: "Available"
+//      )
+//
+//      Divider()
+//        .frame(height: 40)
+//
+//      StatItem(
+//        value: availableLevels.filter { $0.isCompleted }.count,
+//        label: "Completed"
+//      )
+//
+//      Divider()
+//        .frame(height: 40)
+//
+//      StatItem(
+//        value: availableLevels.filter { !$0.isCompleted }.count,
+//        label: "Remaining"
+//      )
+//    }
+//    .frame(maxWidth: .infinity)
+//    .padding(.vertical, 20)
+//    .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+//  }
+//
+//  private var practiceControls: some View {
+//    VStack(spacing: 16) {
+//      // Main practice button
+//      Button {
+//        startRandomLevel()
+//      } label: {
+//        HStack(spacing: 12) {
+//          Image(systemName: "play.fill")
+//            .font(.title3)
+//
+//          VStack(alignment: .leading, spacing: 2) {
+//            Text("Start Practice")
+//              .font(.headline)
+//              .fontWeight(.medium)
+//
+//            Text(selectedDifficulty == 0 ? "Random difficulty" : "Difficulty \(selectedDifficulty)")
+//              .font(.caption)
+//              .opacity(0.8)
+//          }
+//
+//          Spacer()
+//
+//          Image(systemName: "arrow.right")
+//            .font(.caption)
+//            .opacity(0.6)
+//        }
+//        .foregroundStyle(.white)
+//        .padding(20)
+//        .frame(maxWidth: .infinity, alignment: .leading)
+//        .background(.primary, in: RoundedRectangle(cornerRadius: 16))
+//      }
+//      .sensoryFeedback(.impact(weight: .medium), trigger: coordinator.presentedFullScreen != nil)
+//    }
+//  }
+//
+//  private var noLevelsView: some View {
+//    VStack(spacing: 20) {
+//      Image(systemName: "puzzlepiece")
+//        .font(.system(size: 48))
+//        .foregroundStyle(.secondary)
+//
+//      VStack(spacing: 8) {
+//        Text("No levels available")
+//          .font(.headline)
+//
+//        Text("Generate levels in the main calendar view to start practicing")
+//          .font(.subheadline)
+//          .foregroundStyle(.secondary)
+//          .multilineTextAlignment(.center)
+//      }
+//    }
+//    .padding(40)
+//    .frame(maxWidth: .infinity)
+//    .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 16))
+//  }
+//
+//  private var sessionStatsSection: some View {
+//    VStack(spacing: 16) {
+//      Text("Session")
+//        .font(.headline)
+//
+//      HStack(spacing: 0) {
+//        StatItem(
+//          value: completedInSession,
+//          label: "Solved"
+//        )
+//
+//        Divider()
+//          .frame(height: 40)
+//
+//        StatItem(
+//          value: Int(Date().timeIntervalSince(sessionStartTime) / 60),
+//          label: "Minutes"
+//        )
+//
+//        if completedInSession > 0 {
+//          Divider()
+//            .frame(height: 40)
+//
+//          StatItem(
+//            value: Int(Date().timeIntervalSince(sessionStartTime) / Double(completedInSession) / 60),
+//            label: "Avg/Level"
+//          )
+//        }
+//      }
+//      .frame(maxWidth: .infinity)
+//      .padding(.vertical, 20)
+//      .background(.thinMaterial, in: RoundedRectangle(cornerRadius: 16))
+//    }
+//  }
+//
+//  // MARK: - Actions
+//
+//  private func startRandomLevel() {
+//    guard let randomLevel = nextRandomLevel else { return }
+//
+//    let gameSession = GameSession(level: randomLevel, context: .practice)
+//    coordinator.presentFullScreen(.game(gameSession))
+//  }
+//
+//  private func handlePotentialGameCompletion() {
+//    // Check if a practice game was just completed
+//    // This could be enhanced by having the GameSession communicate completion status
+//    // For now, we'll increment the session counter when returning from a game
+//    if coordinator.presentedFullScreen == nil {
+//      // Optionally increment completed count - you might want to make this more sophisticated
+//      // by actually checking if the game was completed rather than just closed
+//    }
+//  }
+//
+//  // MARK: - Helper Functions
+//
+//  private func difficultyName(_ difficulty: Int) -> String {
+//    switch difficulty {
+//    case 1: return "Easy"
+//    case 2: return "Medium"
+//    case 3: return "Hard"
+//    case 4: return "Expert"
+//    case 5: return "Master"
+//    default: return ""
+//    }
+//  }
+//
+//  private func difficultyColor(_ difficulty: Int) -> Color {
+//    switch difficulty {
+//    case 1: return .green
+//    case 2: return .yellow
+//    case 3: return .orange
+//    case 4: return .red
+//    case 5: return .purple
+//    default: return .gray
+//    }
+//  }
+//}
+//
+//struct DifficultyCard: View {
+//  let title: String
+//  let subtitle: String
+//  let count: Int
+//  let isSelected: Bool
+//  let color: Color
+//  let action: () -> Void
+//
+//  var body: some View {
+//    Button(action: action) {
+//      VStack(spacing: 8) {
+//        Text(title)
+//          .font(.subheadline)
+//          .fontWeight(.medium)
+//          .foregroundStyle(isSelected ? .white : .primary)
+//
+//        Text(subtitle)
+//          .font(.caption)
+//          .foregroundStyle(isSelected ? .primary : .secondary)
+//
+//        Text("\(count)")
+//          .font(.caption2)
+//          .fontWeight(.medium)
+//          .foregroundStyle(isSelected ? .primary : .tertiary)
+//          .padding(.horizontal, 8)
+//          .padding(.vertical, 2)
+//          .background(
+//            (isSelected ? Color.white.opacity(0.2) : Color.secondary.opacity(0.1)),
+//            in: Capsule()
+//          )
+//      }
+//      .frame(maxWidth: .infinity)
+//      .padding(.vertical, 16)
+//      .background(
+//        RoundedRectangle(cornerRadius: 12)
+//          .fill(isSelected ? color : color.opacity(0.1))
+//          .overlay(
+//            RoundedRectangle(cornerRadius: 12)
+//              .stroke(color.opacity(isSelected ? 0 : 0.3), lineWidth: 1)
+//          )
+//      )
+//    }
+//    .sensoryFeedback(.selection, trigger: isSelected)
+//  }
+//}
+//
+//struct StatItem: View {
+//  let value: Int
+//  let label: String
+//
+//  var body: some View {
+//    VStack(spacing: 6) {
+//      Text("\(value)")
+//        .font(.title2)
+//        .fontWeight(.medium)
+//        .monospacedDigit()
+//
+//      Text(label)
+//        .font(.caption)
+//        .foregroundStyle(.secondary)
+//    }
+//    .frame(maxWidth: .infinity)
+//  }
+//}

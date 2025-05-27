@@ -1,8 +1,6 @@
 //
-//  ShikakuCalendarView.swift
+//  ShikakuCalendarView.swift - Fixed version
 //  shikaku
-//
-//  Enhanced calendar view with proper navigation coordination
 //
 
 import SwiftUI
@@ -458,8 +456,9 @@ struct ShikakuCalendarView: View {
       LevelBuilderView()
         .environment(\.modelContext, modelContext)
     case .practiceMode(let levels):
-      PracticeModeView(levels: levels)
+      PracticeModeView(levels: levels, coordinator: coordinator)
         .environment(\.modelContext, modelContext)
+        .environment(coordinator) // Fixed: Pass coordinator
     }
   }
 
@@ -768,9 +767,4 @@ struct LevelEditorSheet: View {
       print("Failed to save level: \(error)")
     }
   }
-}
-
-#Preview {
-  ShikakuCalendarView()
-    .modelContainer(for: [ShikakuLevel.self, GameProgress.self, LevelClue.self])
 }

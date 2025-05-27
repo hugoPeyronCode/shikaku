@@ -560,7 +560,7 @@ struct LevelBuilderView: View {
         .fullScreenCover(isPresented: $showingGameView) {
             ZStack {
                 // Game content
-                ShikakuGameView(game: testGame)
+              ShikakuGameView(session: testGame)
 
                 // Close button overlay
                 VStack {

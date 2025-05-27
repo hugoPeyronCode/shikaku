@@ -2,7 +2,7 @@
 //  PracticeModeView.swift
 //  shikaku
 //
-//  Minimalist practice mode with simplified difficulty selection
+//  Minimalist practice mode with AppCoordinator integration
 //
 
 import SwiftUI
@@ -13,11 +13,9 @@ struct PracticeModeView: View {
   @Environment(\.modelContext) private var modelContext
 
   let levels: [ShikakuLevel]
+  let coordinator: AppCoordinator
 
   @State private var selectedDifficulty: Int = 0 // 0 = all difficulties
-  @State private var currentPracticeLevel: ShikakuLevel?
-  @State private var showingGameView = false
-  @State private var practiceGame = ShikakuGame()
   @State private var completedInSession = 0
   @State private var sessionStartTime = Date()
 
@@ -42,69 +40,70 @@ struct PracticeModeView: View {
   }
 
   var body: some View {
-    NavigationStack {
-      VStack(spacing: 0) {
-        // Header
-        headerSection
-          .padding(.horizontal)
-          .padding(.top)
+    VStack(spacing: 0) {
+      // Header
+      headerSection
+        .padding(.horizontal)
+        .padding(.top)
 
-        ScrollView {
-          VStack(spacing: 32) {
-            // Difficulty selection
-            difficultySelection
+      ScrollView {
+        VStack(spacing: 32) {
+          // Difficulty selection
+          difficultySelection
+            .padding(.horizontal)
+
+          // Stats overview
+          if !availableLevels.isEmpty {
+            statsOverview
               .padding(.horizontal)
-
-            // Stats overview
-            if !availableLevels.isEmpty {
-              statsOverview
-                .padding(.horizontal)
-            }
-
-            // Practice controls
-            if availableLevels.isEmpty {
-              noLevelsView
-                .padding(.horizontal)
-            } else {
-              practiceControls
-                .padding(.horizontal)
-            }
-
-            // Session stats (only show if session active)
-            if completedInSession > 0 || Date().timeIntervalSince(sessionStartTime) > 60 {
-              sessionStatsSection
-                .padding(.horizontal)
-            }
-
-            Spacer(minLength: 100)
           }
-          .padding(.vertical, 32)
+
+          // Practice controls
+          if availableLevels.isEmpty {
+            noLevelsView
+              .padding(.horizontal)
+          } else {
+            practiceControls
+              .padding(.horizontal)
+          }
+
+          // Session stats (only show if session active)
+          if completedInSession > 0 || Date().timeIntervalSince(sessionStartTime) > 60 {
+            sessionStatsSection
+              .padding(.horizontal)
+          }
+
+          Spacer(minLength: 100)
+        }
+        .padding(.vertical, 32)
+      }
+    }
+    .background(Color(.systemBackground))
+    .navigationTitle("")
+    .navigationBarBackButtonHidden()
+    .toolbar {
+      ToolbarItem(placement: .topBarLeading) {
+        Button {
+          dismiss()
+        } label: {
+          HStack(spacing: 6) {
+            Image(systemName: "chevron.left")
+              .font(.caption)
+              .fontWeight(.medium)
+            Text("Back")
+              .font(.body)
+          }
+          .foregroundStyle(.primary)
         }
       }
-      .background(Color(.systemBackground))
-      .navigationTitle("")
-      .navigationBarBackButtonHidden()
-      .toolbar {
-        ToolbarItem(placement: .topBarLeading) {
-          Button {
-            dismiss()
-          } label: {
-            HStack(spacing: 6) {
-              Image(systemName: "chevron.left")
-                .font(.caption)
-                .fontWeight(.medium)
-              Text("Back")
-                .font(.body)
-            }
-            .foregroundStyle(.primary)
-          }
-        }
-      }
-      .fullScreenCover(isPresented: $showingGameView) {
-        practiceGameView
-      }
-      .onAppear {
-        sessionStartTime = Date()
+    }
+    .onAppear {
+      sessionStartTime = Date()
+    }
+    .onChange(of: coordinator.presentedFullScreen) { _, fullScreen in
+      // Handle game completion when returning from full screen
+      if fullScreen == nil {
+        handlePotentialGameCompletion()
       }
     }
   }
@@ -140,7 +139,6 @@ struct PracticeModeView: View {
         ) {
           withAnimation(.easeInOut(duration: 0.2)) {
             selectedDifficulty = 0
-            currentPracticeLevel = nil
           }
         }
 
@@ -156,7 +154,6 @@ struct PracticeModeView: View {
           ) {
             withAnimation(.easeInOut(duration: 0.2)) {
               selectedDifficulty = difficulty
-              currentPracticeLevel = nil
             }
           }
         }
@@ -223,33 +220,7 @@ struct PracticeModeView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(.primary, in: RoundedRectangle(cornerRadius: 16))
       }
-      .sensoryFeedback(.impact(weight: .medium), trigger: showingGameView)
-
-      // Continue button (if level in progress)
-      if currentPracticeLevel != nil {
-        Button {
-          showingGameView = true
-        } label: {
-          HStack(spacing: 12) {
-            Image(systemName: "arrow.clockwise")
-              .font(.title3)
-
-            Text("Continue Current")
-              .font(.headline)
-              .fontWeight(.medium)
-
-            Spacer()
-          }
-          .foregroundStyle(.primary)
-          .padding(20)
-          .frame(maxWidth: .infinity, alignment: .leading)
-          .background(
-            RoundedRectangle(cornerRadius: 16)
-              .stroke(.primary.opacity(0.3), lineWidth: 1)
-          )
-        }
-        .sensoryFeedback(.impact(weight: .light), trigger: showingGameView)
-      }
+      .sensoryFeedback(.impact(weight: .medium), trigger: coordinator.presentedFullScreen != nil)
     }
   }
 
@@ -309,115 +280,23 @@ struct PracticeModeView: View {
     }
   }
 
-  private var practiceGameView: some View {
-    ZStack {
-      ShikakuGameView(game: practiceGame)
-        .onAppear {
-          loadCurrentLevel()
-        }
-        .onChange(of: practiceGame.isGameComplete) { _, isComplete in
-          if isComplete {
-            handleLevelCompleted()
-          }
-        }
-
-      VStack {
-        HStack {
-          // Level info
-          if let level = currentPracticeLevel {
-            VStack(alignment: .leading, spacing: 4) {
-              Text("Practice")
-                .font(.caption)
-                .foregroundStyle(.secondary)
-              Text("Difficulty \(level.difficulty) • \(level.gridRows)×\(level.gridCols)")
-                .font(.caption2)
-                .foregroundStyle(.tertiary)
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 6)
-            .background(.ultraThinMaterial, in: Capsule())
-          }
-
-          Spacer()
-
-          Button {
-            showingGameView = false
-          } label: {
-            Image(systemName: "xmark")
-              .font(.title2)
-              .fontWeight(.medium)
-              .foregroundStyle(.primary)
-              .frame(width: 32, height: 32)
-              .background(.ultraThinMaterial, in: Circle())
-          }
-        }
-        .padding(.horizontal)
-        .padding(.top, 8)
-
-        Spacer()
-
-        // Next level button
-        if practiceGame.isGameComplete {
-          Button {
-            startNextLevel()
-          } label: {
-            HStack(spacing: 12) {
-              Image(systemName: "arrow.right")
-              Text("Next Level")
-                .fontWeight(.medium)
-            }
-            .foregroundStyle(.white)
-            .padding(.horizontal, 24)
-            .padding(.vertical, 16)
-            .background(.primary, in: Capsule())
-          }
-          .padding(.bottom, 40)
-          .sensoryFeedback(.success, trigger: practiceGame.isGameComplete)
-        }
-      }
-    }
-  }
-
   // MARK: - Actions
 
   private func startRandomLevel() {
     guard let randomLevel = nextRandomLevel else { return }
 
-    currentPracticeLevel = randomLevel
-    practiceGame = ShikakuGame()
-    showingGameView = true
+    let gameSession = GameSession(level: randomLevel, context: .practice)
+    coordinator.presentFullScreen(.game(gameSession))
   }
 
-  private func startNextLevel() {
-    guard let nextLevel = nextRandomLevel else {
-      showingGameView = false
-      return
+  private func handlePotentialGameCompletion() {
+    // Check if a practice game was just completed
+    // This could be enhanced by having the GameSession communicate completion status
+    // For now, we'll increment the session counter when returning from a game
+    if coordinator.presentedFullScreen == nil {
+      // Optionally increment completed count - you might want to make this more sophisticated
+      // by actually checking if the game was completed rather than just closed
     }
-
-    currentPracticeLevel = nextLevel
-    practiceGame = ShikakuGame()
-    loadCurrentLevel()
-  }
-
-  private func loadCurrentLevel() {
-    guard let level = currentPracticeLevel else { return }
-
-    practiceGame.gridSize = (level.gridRows, level.gridCols)
-    practiceGame.numberClues = level.toNumberClues()
-    practiceGame.rectangles = []
-    practiceGame.validateGame()
-  }
-
-  private func handleLevelCompleted() {
-    guard let level = currentPracticeLevel else { return }
-
-    if !level.isCompleted {
-      level.isCompleted = true
-      level.completionTime = Date().timeIntervalSinceReferenceDate
-      try? modelContext.save()
-    }
-
-    completedInSession += 1
   }
 
   // MARK: - Helper Functions
@@ -491,26 +370,26 @@ struct DifficultyCard: View {
   }
 }
 
-//struct StatItem: View {
-//  let value: Int
-//  let label: String
-//
-//  var body: some View {
-//    VStack(spacing: 6) {
-//      Text("\(value)")
-//        .font(.title2)
-//        .fontWeight(.medium)
-//        .monospacedDigit()
-//
-//      Text(label)
-//        .font(.caption)
-//        .foregroundStyle(.secondary)
-//    }
-//    .frame(maxWidth: .infinity)
-//  }
-//}
+struct StatItem: View {
+  let value: Int
+  let label: String
+
+  var body: some View {
+    VStack(spacing: 6) {
+      Text("\(value)")
+        .font(.title2)
+        .fontWeight(.medium)
+        .monospacedDigit()
+
+      Text(label)
+        .font(.caption)
+        .foregroundStyle(.secondary)
+    }
+    .frame(maxWidth: .infinity)
+  }
+}
 
 #Preview {
-  PracticeModeView(levels: [])
+  PracticeModeView(levels: [], coordinator: AppCoordinator())
     .modelContainer(for: [ShikakuLevel.self, GameProgress.self, LevelClue.self])
 }

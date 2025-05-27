@@ -32,8 +32,8 @@
 		50350EFB2DE0C7D900C115C4 = {
 			isa = PBXGroup;
 			children = (
-				50350F062DE0C7D900C115C4 /* shikaku */,
 				50350F052DE0C7D900C115C4 /* Products */,
+				50350F062DE0C7D900C115C4 /* shikaku */,
 			);
 			sourceTree = "<group>";
 		};

@@ -2,7 +2,7 @@
 //  ShikakuCalendarView.swift
 //  shikaku
 //
-//  Enhanced calendar view with level generation and practice mode
+//  Enhanced calendar view with proper navigation coordination
 //
 
 import SwiftUI
@@ -14,13 +14,13 @@ struct ShikakuCalendarView: View {
   @Query(sort: \ShikakuLevel.date, order: .reverse) private var levels: [ShikakuLevel]
   @Query private var progress: [GameProgress]
 
+  @State private var coordinator = AppCoordinator()
   @State private var viewModel = ShikakuCalendarViewModel()
   @State private var isHorizontalMode = true
   @State private var isGeneratingLevels = false
-  @State private var showingPracticeMode = false
 
   var body: some View {
-    NavigationStack {
+    NavigationStack(path: $coordinator.navigationPath) {
       VStack(spacing: 0) {
         headerView
 
@@ -47,59 +47,18 @@ struct ShikakuCalendarView: View {
       }
       .background(Color(.systemBackground))
       .navigationTitle("")
-      .sheet(isPresented: $viewModel.showLevelBuilder) {
-        LevelBuilderView()
-      }
-      .sheet(isPresented: $viewModel.showingLevelEditor) {
-        LevelEditorSheet(selectedDate: viewModel.selectedDate)
-          .environment(\.modelContext, modelContext)
-      }
-      .sheet(isPresented: $showingPracticeMode) {
-        PracticeModeView(levels: levels)
-          .environment(\.modelContext, modelContext)
-      }
-      .fullScreenCover(isPresented: $viewModel.showingGameView) {
-        ZStack {
-          ShikakuGameView(game: viewModel.game)
-            .onAppear {
-              viewModel.loadSelectedLevel()
-            }
-            .onChange(of: viewModel.game.isGameComplete) { _, isComplete in
-              if isComplete && viewModel.selectedLevel?.isCompleted == false {
-                markLevelCompleted()
-              }
-            }
-
-          VStack {
-            HStack {
-              Spacer()
-              Button {
-                viewModel.showingGameView = false
-              } label: {
-                Image(systemName: "xmark")
-                  .font(.title2)
-                  .fontWeight(.medium)
-                  .foregroundStyle(.primary)
-                  .frame(width: 32, height: 32)
-                  .background(
-                    Circle()
-                      .fill(.ultraThinMaterial)
-                      .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
-                  )
-              }
-              .sensoryFeedback(.impact(weight: .light), trigger: false)
-            }
-            .padding(.horizontal)
-            .padding(.top, 8)
-            Spacer()
-          }
-        }
-      }
-      .onAppear {
-        initializeProgressIfNeeded()
-        if Calendar.current.dateComponents([.day], from: viewModel.selectedDate, to: Date()).day != 0 {
-          viewModel.focusOnToday()
-        }
+      .environment(coordinator)
+    }
+    .sheet(item: $coordinator.presentedSheet) { destination in
+      sheetContent(for: destination)
+    }
+    .fullScreenCover(item: $coordinator.presentedFullScreen) { destination in
+      fullScreenContent(for: destination)
+    }
+    .onAppear {
+      initializeProgressIfNeeded()
+      if Calendar.current.dateComponents([.day], from: viewModel.selectedDate, to: Date()).day != 0 {
+        viewModel.focusOnToday()
       }
     }
   }
@@ -119,17 +78,18 @@ struct ShikakuCalendarView: View {
       Spacer()
 
       Button("Builder") {
-        viewModel.showLevelBuilder = true
+        coordinator.presentSheet(.levelBuilder)
       }
+      .sensoryFeedback(.impact(weight: .light), trigger: false)
 
       Button {
-        viewModel.showingLevelEditor = true
+        coordinator.presentSheet(.levelEditor(date: viewModel.selectedDate))
       } label: {
         Image(systemName: "plus.circle")
           .font(.title2)
           .foregroundStyle(.primary)
       }
-      .sensoryFeedback(.impact(weight: .light), trigger: viewModel.showingLevelEditor)
+      .sensoryFeedback(.impact(weight: .light), trigger: false)
     }
     .padding(.horizontal)
     .padding(.top, 8)
@@ -308,10 +268,9 @@ struct ShikakuCalendarView: View {
           progress: currentProgress
         ) {
           if let level = viewModel.levelForDate(viewModel.selectedDate, levels: levels) {
-            viewModel.selectedLevel = level
-            viewModel.showingGameView = true
+            playLevel(level, context: .daily(viewModel.selectedDate))
           } else {
-            viewModel.showingLevelEditor = true
+            coordinator.presentSheet(.levelEditor(date: viewModel.selectedDate))
           }
         }
 
@@ -322,7 +281,7 @@ struct ShikakuCalendarView: View {
           date: viewModel.selectedDate,
           progress: currentProgress
         ) {
-          showingPracticeMode = true
+          coordinator.presentSheet(.practiceMode(levels))
         }
       }
     }
@@ -486,6 +445,68 @@ struct ShikakuCalendarView: View {
         .fill(.thinMaterial)
         .shadow(color: .black.opacity(0.05), radius: 8, y: 4)
     )
+  }
+
+  // MARK: - Sheet and FullScreen Content
+  @ViewBuilder
+  private func sheetContent(for destination: AppCoordinator.SheetDestination) -> some View {
+    switch destination {
+    case .levelEditor(let date):
+      LevelEditorSheet(selectedDate: date)
+        .environment(\.modelContext, modelContext)
+    case .levelBuilder:
+      LevelBuilderView()
+        .environment(\.modelContext, modelContext)
+    case .practiceMode(let levels):
+      PracticeModeView(levels: levels)
+        .environment(\.modelContext, modelContext)
+    }
+  }
+
+  @ViewBuilder
+  private func fullScreenContent(for destination: AppCoordinator.FullScreenDestination) -> some View {
+    switch destination {
+    case .game(let session):
+      ShikakuGameView(session: session)
+        .environment(\.modelContext, modelContext)
+        .environment(coordinator)
+        .onChange(of: session.game.isGameComplete) { _, isComplete in
+          if isComplete && !session.isCompleted {
+            handleGameCompletion(session: session)
+          }
+        }
+    }
+  }
+
+  // MARK: - Actions
+
+  private func playLevel(_ level: ShikakuLevel, context: GameSession.GameContext) {
+    let session = GameSession(level: level, context: context)
+    coordinator.presentFullScreen(.game(session))
+  }
+
+  private func handleGameCompletion(session: GameSession) {
+    session.complete()
+
+    // Update level completion in database
+    session.level.isCompleted = true
+    session.level.completionTime = Date().timeIntervalSinceReferenceDate
+
+    // Update progress stats
+    let fetchDescriptor = FetchDescriptor<GameProgress>()
+    if let progressArray = try? modelContext.fetch(fetchDescriptor),
+       let progress = progressArray.first {
+      progress.totalCompletedLevels += 1
+      let newMaxStreak = viewModel.calculateCurrentMaxStreak(levels: levels)
+      progress.maxStreak = max(progress.maxStreak, newMaxStreak)
+      progress.lastPlayedDate = Date()
+    }
+
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save game completion: \(error)")
+    }
   }
 
   // MARK: - Computed Properties
@@ -657,34 +678,15 @@ struct ShikakuCalendarView: View {
 
   // MARK: - Helper Functions
 
-  private func markLevelCompleted() {
-    guard let level = viewModel.selectedLevel else { return }
-
-    level.isCompleted = true
-    level.completionTime = Date().timeIntervalSinceReferenceDate
-
-    let fetchDescriptor = FetchDescriptor<GameProgress>()
-    if let progressArray = try? modelContext.fetch(fetchDescriptor),
-       let progress = progressArray.first {
-      progress.totalCompletedLevels += 1
-      let newMaxStreak = viewModel.calculateCurrentMaxStreak(levels: levels)
-      progress.maxStreak = max(progress.maxStreak, newMaxStreak)
-      progress.lastPlayedDate = Date()
-    }
-
-    try? modelContext.save()
-  }
-
   private func initializeProgressIfNeeded() {
     if progress.isEmpty {
       let newProgress = GameProgress()
       modelContext.insert(newProgress)
-      try? modelContext.save()
-    } else {
-      // Handle migration for existing progress
-      let existingProgress = progress.first!
-      // The new properties will automatically be initialized to 0 by SwiftData
-      try? modelContext.save()
+      do {
+        try modelContext.save()
+      } catch {
+        print("Failed to initialize progress: \(error)")
+      }
     }
   }
 }
@@ -707,26 +709,6 @@ struct StatMini: View {
         .foregroundStyle(.secondary)
     }
     .frame(maxWidth: .infinity)
-  }
-}
-
-struct StatItem: View {
-  let value: Int
-  let label: String
-
-  var body: some View {
-    VStack(spacing: 8) {
-      Text("\(value)")
-        .font(.title)
-        .fontWeight(.medium)
-        .monospacedDigit()
-
-      Text(label)
-        .font(.caption)
-        .foregroundStyle(.secondary)
-        .multilineTextAlignment(.center)
-        .lineLimit(2)
-    }
   }
 }
 
@@ -769,6 +751,7 @@ struct LevelEditorSheet: View {
 
     level.difficulty = editor.estimateDifficulty()
 
+    // Remove existing level for this date
     let fetchDescriptor = FetchDescriptor<ShikakuLevel>()
     if let existingLevels = try? modelContext.fetch(fetchDescriptor) {
       for existingLevel in existingLevels {
@@ -779,7 +762,11 @@ struct LevelEditorSheet: View {
     }
 
     modelContext.insert(level)
-    try? modelContext.save()
+    do {
+      try modelContext.save()
+    } catch {
+      print("Failed to save level: \(error)")
+    }
   }
 }
 

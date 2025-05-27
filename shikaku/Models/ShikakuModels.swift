@@ -73,6 +73,8 @@ final class GameProgress {
     var maxStreak: Int
     var totalCompletedLevels: Int
     var lastPlayedDate: Date?
+    var prestigeLevel: Int
+    var totalLifetimeCompletions: Int
 
     init() {
         self.id = UUID()
@@ -80,5 +82,7 @@ final class GameProgress {
         self.maxStreak = 0
         self.totalCompletedLevels = 0
         self.lastPlayedDate = nil
+        self.prestigeLevel = 0
+        self.totalLifetimeCompletions = 0
     }
 }

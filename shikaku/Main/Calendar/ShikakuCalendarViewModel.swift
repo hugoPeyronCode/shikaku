@@ -245,6 +245,14 @@ class ShikakuCalendarViewModel {
 
   // MARK: - Helper Methods
 
+  func focusOnToday() {
+      let today = Date()
+      withAnimation(.easeInOut(duration: 0.3)) {
+          selectedDate = today
+          currentMonth = today
+      }
+  }
+
   func generateCalendarDays() -> [CalendarDay] {
     let startOfMonth = calendar.dateInterval(of: .month, for: currentMonth)?.start ?? currentMonth
     let firstWeekday = calendar.component(.weekday, from: startOfMonth)

@@ -172,7 +172,7 @@ class LevelBuilderManager {
         }
     }
 
-    private func generateValidLevel(date: Date, gridSize: (rows: Int, cols: Int), difficulty: Int, levelNumber: Int) -> ExportableLevel? {
+    func generateValidLevel(date: Date, gridSize: (rows: Int, cols: Int), difficulty: Int, levelNumber: Int) -> ExportableLevel? {
         // Algorithme de génération "reverse engineering"
         // 1. Créer une solution valide
         // 2. Extraire les clues minimales
@@ -376,7 +376,7 @@ class LevelBuilderManager {
         return true
     }
 
-    private func generateSimpleLevel(date: Date, gridSize: (rows: Int, cols: Int), difficulty: Int) -> ExportableLevel {
+    func generateSimpleLevel(date: Date, gridSize: (rows: Int, cols: Int), difficulty: Int) -> ExportableLevel {
         // Générateur de fallback simple mais garanti de fonctionner
         let totalCells = gridSize.rows * gridSize.cols
 

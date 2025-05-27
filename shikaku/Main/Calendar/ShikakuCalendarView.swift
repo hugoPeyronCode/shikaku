@@ -24,6 +24,7 @@ struct ShikakuCalendarView: View {
 
         ScrollView(.vertical, showsIndicators: false) {
           VStack(spacing: 32) {
+
             if isHorizontalMode {
               horizontalCalendarSection
             } else {
@@ -32,6 +33,11 @@ struct ShikakuCalendarView: View {
 
             dailyShikakuSection
               .padding(.horizontal)
+
+            dailyShikakuSection
+              .padding(.horizontal)
+
+            stats
 
             Spacer(minLength: 100)
           }
@@ -153,12 +159,6 @@ struct ShikakuCalendarView: View {
 
   private var fullCalendarSection: some View {
     VStack(spacing: 24) {
-      // Stats
-      HStack(spacing: 40) {
-        StatItem(value: currentProgress.totalCompletedLevels, label: "Completed\ndays")
-        StatItem(value: viewModel.calculateMaxPossibleStreak(levels: levels), label: "Max possible\nstreak")
-        StatItem(value: currentProgress.maxStreak, label: "Best\nstreak")
-      }
 
       monthNavigationHeader(showExpandButton: false)
 
@@ -271,7 +271,7 @@ struct ShikakuCalendarView: View {
           .padding(.vertical, 5)
           .background(
             Capsule()
-              .fill(priority.color.opacity(0.1))
+              .fill(priority.color.opacity(1))
               .overlay(
                 Capsule()
                   .stroke(priority.color.opacity(0.3), lineWidth: 1)
@@ -291,6 +291,15 @@ struct ShikakuCalendarView: View {
         }
       }
     }
+  }
+
+  private var stats : some View {
+    HStack(spacing: 40) {
+      StatItem(value: currentProgress.totalCompletedLevels, label: "Completed\ndays")
+      StatItem(value: viewModel.calculateMaxPossibleStreak(levels: levels), label: "Max possible\nstreak")
+      StatItem(value: currentProgress.maxStreak, label: "Best\nstreak")
+    }
+
   }
 
   // MARK: - Computed Properties

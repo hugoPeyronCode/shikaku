@@ -13,20 +13,34 @@ class AppCoordinator {
     var presentedSheet: SheetDestination?
     var presentedFullScreen: FullScreenDestination?
 
+  enum NavigationDestination: Hashable {
+         case practiceMode([ShikakuLevel])
+
+         // Implement Hashable
+         static func == (lhs: NavigationDestination, rhs: NavigationDestination) -> Bool {
+             switch (lhs, rhs) {
+             case (.practiceMode(let lhsLevels), .practiceMode(let rhsLevels)):
+                 return lhsLevels.map { $0.id } == rhsLevels.map { $0.id }
+             }
+         }
+
+         func hash(into hasher: inout Hasher) {
+             switch self {
+             case .practiceMode(let levels):
+                 hasher.combine("practiceMode")
+                 hasher.combine(levels.map { $0.id })
+             }
+         }
+     }
+
     enum SheetDestination: Identifiable {
         case levelEditor(date: Date)
         case levelBuilder
-        case practiceMode([ShikakuLevel])
-//        case stats
-//        case rules
 
         var id: String {
             switch self {
             case .levelEditor: return "levelEditor"
             case .levelBuilder: return "levelBuilder"
-            case .practiceMode: return "practiceMode"
-//            case .stats: return "stats"
-//            case .rules: return "rules"
             }
         }
     }
@@ -65,9 +79,9 @@ class AppCoordinator {
         presentedFullScreen = nil
     }
 
-    func push<T: Hashable>(_ destination: T) {
-        navigationPath.append(destination)
-    }
+  func push(_ destination: NavigationDestination) {
+       navigationPath.append(destination)
+   }
 
     func pop() {
         navigationPath.removeLast()

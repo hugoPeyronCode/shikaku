@@ -19,7 +19,7 @@ final class ShikakuLevel {
     var isCompleted: Bool
     var completionTime: TimeInterval?
     var createdAt: Date
-    var difficulty: Int // 1-5 scale
+    var difficulty: Int
 
     init(date: Date, gridRows: Int, gridCols: Int, clues: [LevelClue] = [], difficulty: Int = 3) {
         self.id = UUID()

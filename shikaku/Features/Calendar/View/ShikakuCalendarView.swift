@@ -46,6 +46,9 @@ struct ShikakuCalendarView: View {
       .background(Color(.systemBackground))
       .navigationTitle("")
       .environment(coordinator)
+      .navigationDestination(for: AppCoordinator.NavigationDestination.self) { destination in
+         navigationContent(for: destination)
+       }
     }
     .sheet(item: $coordinator.presentedSheet) { destination in
       sheetContent(for: destination)
@@ -60,6 +63,7 @@ struct ShikakuCalendarView: View {
       }
     }
   }
+
 
   // MARK: - Header
 
@@ -150,7 +154,7 @@ struct ShikakuCalendarView: View {
     ))
   }
 
-  // MARK: - Month Navigation Header
+  // MARK: - Months Header
 
   private func monthNavigationHeader(showExpandButton: Bool) -> some View {
     HStack {
@@ -279,7 +283,7 @@ struct ShikakuCalendarView: View {
           date: viewModel.selectedDate,
           progress: currentProgress
         ) {
-          coordinator.presentSheet(.practiceMode(levels))
+          coordinator.push(.practiceMode(levels))
         }
       }
     }
@@ -446,6 +450,17 @@ struct ShikakuCalendarView: View {
   }
 
   // MARK: - Sheet and FullScreen Content
+
+  @ViewBuilder
+  private func navigationContent(for destination: AppCoordinator.NavigationDestination) -> some View {
+      switch destination {
+      case .practiceMode(let levels):
+          PracticeModeView(levels: levels, coordinator: coordinator)
+              .environment(\.modelContext, modelContext)
+              .environment(coordinator)
+      }
+  }
+
   @ViewBuilder
   private func sheetContent(for destination: AppCoordinator.SheetDestination) -> some View {
     switch destination {
@@ -455,10 +470,6 @@ struct ShikakuCalendarView: View {
     case .levelBuilder:
       LevelBuilderView()
         .environment(\.modelContext, modelContext)
-    case .practiceMode(let levels):
-      PracticeModeView(levels: levels, coordinator: coordinator)
-        .environment(\.modelContext, modelContext)
-        .environment(coordinator) // Fixed: Pass coordinator
     }
   }
 

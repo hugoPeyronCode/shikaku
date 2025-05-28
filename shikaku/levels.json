@@ -1,0 +1,6554 @@
+{
+  "levels": [
+    {
+      "id": "level_00",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 1,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_01",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_02",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_03",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_04",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_05",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_06",
+      "gridRows": 6,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_07",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_08",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 1,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_09",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_10",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_11",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_12",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_13",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_14",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_15",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_16",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_17",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_18",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_19",
+      "gridRows": 6,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_20",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_21",
+      "gridRows": 5,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_22",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_23",
+      "gridRows": 6,
+      "gridCols": 5,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_24",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 2,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_25",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_26",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_27",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_28",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_29",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_30",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_31",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_32",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_33",
+      "gridRows": 6,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_34",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_35",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_36",
+      "gridRows": 7,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_37",
+      "gridRows": 7,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_38",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_39",
+      "gridRows": 6,
+      "gridCols": 5,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_40",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_41",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_42",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_43",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_44",
+      "gridRows": 5,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_45",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "level_46",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_47",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_48",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_49",
+      "gridRows": 6,
+      "gridCols": 6,
+      "difficulty": 3,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 2
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 2
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 2
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 2
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 2
+        }
+      ]
+    },
+    {
+      "id": "level_50",
+      "gridRows": 7,
+      "gridCols": 6,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_51",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_52",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_53",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_54",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 7,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_55",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_56",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_57",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 3,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_58",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_59",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_60",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 4,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_61",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_62",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_63",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 1,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_64",
+      "gridRows": 7,
+      "gridCols": 6,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_65",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 1,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_66",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_67",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_68",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_69",
+      "gridRows": 7,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_70",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 1,
+          "value": 3
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_71",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 2,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_72",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "id": "level_73",
+      "gridRows": 6,
+      "gridCols": 7,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 3
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_74",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 4,
+      "clues": [
+        {
+          "row": 5,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 3
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 3
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_75",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_76",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 12
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_77",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_78",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_79",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "level_80",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 12
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 12
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_81",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 2,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_82",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 2,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 8
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 12
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_83",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 8
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_84",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 4,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 12
+        },
+        {
+          "row": 1,
+          "col": 0,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "id": "level_85",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_86",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 12
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 12
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_87",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 2,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 9
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_88",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 12
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_89",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_90",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 3,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_91",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 5,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_92",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 2,
+          "col": 2,
+          "value": 12
+        },
+        {
+          "row": 1,
+          "col": 7,
+          "value": 12
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 12
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 12
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_93",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 12
+        },
+        {
+          "row": 0,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_94",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 4,
+          "value": 12
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 2,
+          "col": 4,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_95",
+      "gridRows": 7,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 7,
+          "value": 6
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 6,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_96",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 0,
+          "value": 9
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 0,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 0,
+          "value": 8
+        },
+        {
+          "row": 4,
+          "col": 2,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 9
+        },
+        {
+          "row": 6,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_97",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 0,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 2,
+          "col": 6,
+          "value": 12
+        },
+        {
+          "row": 2,
+          "col": 2,
+          "value": 9
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 6,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 1,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 7,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 0,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 4,
+          "value": 4
+        }
+      ]
+    },
+    {
+      "id": "level_98",
+      "gridRows": 8,
+      "gridCols": 7,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 1,
+          "col": 1,
+          "value": 9
+        },
+        {
+          "row": 2,
+          "col": 3,
+          "value": 8
+        },
+        {
+          "row": 0,
+          "col": 5,
+          "value": 9
+        },
+        {
+          "row": 3,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 5,
+          "value": 6
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 1,
+          "value": 6
+        },
+        {
+          "row": 5,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 5,
+          "value": 4
+        },
+        {
+          "row": 7,
+          "col": 2,
+          "value": 1
+        },
+        {
+          "row": 7,
+          "col": 6,
+          "value": 1
+        }
+      ]
+    },
+    {
+      "id": "level_99",
+      "gridRows": 8,
+      "gridCols": 8,
+      "difficulty": 5,
+      "clues": [
+        {
+          "row": 4,
+          "col": 0,
+          "value": 12
+        },
+        {
+          "row": 1,
+          "col": 3,
+          "value": 6
+        },
+        {
+          "row": 1,
+          "col": 6,
+          "value": 8
+        },
+        {
+          "row": 3,
+          "col": 6,
+          "value": 9
+        },
+        {
+          "row": 4,
+          "col": 7,
+          "value": 4
+        },
+        {
+          "row": 4,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 3,
+          "value": 4
+        },
+        {
+          "row": 5,
+          "col": 6,
+          "value": 1
+        },
+        {
+          "row": 6,
+          "col": 0,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 4,
+          "value": 6
+        },
+        {
+          "row": 6,
+          "col": 6,
+          "value": 4
+        }
+      ]
+    }
+  ]
+}

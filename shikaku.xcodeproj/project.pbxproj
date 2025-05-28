@@ -10,9 +10,22 @@
 		50350F042DE0C7D900C115C4 /* shikaku.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = shikaku.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		504BE1972DE746E300D0AB0D /* Exceptions for "shikaku" folder in "Compile Sources" phase from "shikaku" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 50350F002DE0C7D900C115C4 /* Sources */;
+			membershipExceptions = (
+				levels.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		50350F062DE0C7D900C115C4 /* shikaku */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				504BE1972DE746E300D0AB0D /* Exceptions for "shikaku" folder in "Compile Sources" phase from "shikaku" target */,
+			);
 			path = shikaku;
 			sourceTree = "<group>";
 		};

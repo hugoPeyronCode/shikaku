@@ -33,19 +33,27 @@ struct LevelsContainer: Codable {
 
 @Observable
 class LevelManager {
+    static let shared = LevelManager()
+
     private var baseLevels: [LevelData] = []
     private let calendar = Calendar.current
+    private var isLoaded = false
 
-    // Reference date for the 10-level cycle (day 5 = today)
+    // Reference date for the level cycle
     private let referenceDate: Date
 
-    init() {
-        // Set reference date to today
+    private init() {
         self.referenceDate = Date()
         loadLevelsFromJSON()
     }
 
     private func loadLevelsFromJSON() {
+        // Prevent multiple loads
+        guard !isLoaded else {
+            print("📋 Levels already loaded, skipping...")
+            return
+        }
+
         // First try to load from bundle
         if let url = Bundle.main.url(forResource: "levels", withExtension: "json"),
            let data = try? Data(contentsOf: url) {
@@ -55,187 +63,22 @@ class LevelManager {
             do {
                 let container = try JSONDecoder().decode(LevelsContainer.self, from: data)
                 self.baseLevels = container.levels
+                self.isLoaded = true // Mark as loaded
                 print("✅ Successfully loaded \(baseLevels.count) levels from JSON file")
                 return
             } catch {
                 print("❌ ERROR: Failed to decode levels.json: \(error)")
             }
         }
-
-        // Fallback: Load from embedded data
-        print("⚠️ JSON file not found, using embedded levels")
+        print("⚠️ JSON file not found, no embedded levels available")
         loadEmbeddedLevels()
     }
 
     private func loadEmbeddedLevels() {
-        // Embedded JSON as fallback
-        let embeddedJSON = """
-        {
-          "levels": [
-            {
-              "id": "level_00",
-              "gridRows": 5,
-              "gridCols": 5,
-              "difficulty": 2,
-              "clues": [
-                { "row": 0, "col": 1, "value": 3 },
-                { "row": 1, "col": 3, "value": 4 },
-                { "row": 2, "col": 0, "value": 2 },
-                { "row": 3, "col": 2, "value": 6 },
-                { "row": 4, "col": 4, "value": 2 }
-              ]
-            },
-            {
-              "id": "level_01",
-              "gridRows": 6,
-              "gridCols": 6,
-              "difficulty": 3,
-              "clues": [
-                { "row": 0, "col": 2, "value": 4 },
-                { "row": 1, "col": 0, "value": 3 },
-                { "row": 2, "col": 4, "value": 6 },
-                { "row": 3, "col": 1, "value": 2 },
-                { "row": 4, "col": 3, "value": 8 },
-                { "row": 5, "col": 5, "value": 2 }
-              ]
-            },
-            {
-              "id": "level_02",
-              "gridRows": 5,
-              "gridCols": 6,
-              "difficulty": 2,
-              "clues": [
-                { "row": 0, "col": 0, "value": 6 },
-                { "row": 1, "col": 2, "value": 3 },
-                { "row": 2, "col": 4, "value": 4 },
-                { "row": 3, "col": 1, "value": 5 },
-                { "row": 4, "col": 5, "value": 3 }
-              ]
-            },
-            {
-              "id": "level_03",
-              "gridRows": 7,
-              "gridCols": 5,
-              "difficulty": 4,
-              "clues": [
-                { "row": 0, "col": 3, "value": 4 },
-                { "row": 1, "col": 1, "value": 6 },
-                { "row": 2, "col": 4, "value": 3 },
-                { "row": 3, "col": 0, "value": 8 },
-                { "row": 4, "col": 2, "value": 2 },
-                { "row": 5, "col": 4, "value": 5 },
-                { "row": 6, "col": 1, "value": 4 }
-              ]
-            },
-            {
-              "id": "level_04",
-              "gridRows": 6,
-              "gridCols": 5,
-              "difficulty": 3,
-              "clues": [
-                { "row": 0, "col": 2, "value": 5 },
-                { "row": 1, "col": 4, "value": 3 },
-                { "row": 2, "col": 0, "value": 4 },
-                { "row": 3, "col": 3, "value": 6 },
-                { "row": 4, "col": 1, "value": 2 },
-                { "row": 5, "col": 4, "value": 4 }
-              ]
-            },
-            {
-              "id": "level_05",
-              "gridRows": 6,
-              "gridCols": 6,
-              "difficulty": 4,
-              "clues": [
-                { "row": 0, "col": 1, "value": 4 },
-                { "row": 1, "col": 3, "value": 6 },
-                { "row": 2, "col": 0, "value": 3 },
-                { "row": 2, "col": 5, "value": 2 },
-                { "row": 3, "col": 2, "value": 8 },
-                { "row": 4, "col": 4, "value": 5 },
-                { "row": 5, "col": 1, "value": 3 }
-              ]
-            },
-            {
-              "id": "level_06",
-              "gridRows": 5,
-              "gridCols": 7,
-              "difficulty": 3,
-              "clues": [
-                { "row": 0, "col": 3, "value": 6 },
-                { "row": 1, "col": 0, "value": 4 },
-                { "row": 1, "col": 6, "value": 2 },
-                { "row": 2, "col": 2, "value": 5 },
-                { "row": 3, "col": 4, "value": 8 },
-                { "row": 4, "col": 1, "value": 3 }
-              ]
-            },
-            {
-              "id": "level_07",
-              "gridRows": 7,
-              "gridCols": 6,
-              "difficulty": 5,
-              "clues": [
-                { "row": 0, "col": 2, "value": 3 },
-                { "row": 1, "col": 5, "value": 4 },
-                { "row": 2, "col": 0, "value": 6 },
-                { "row": 3, "col": 3, "value": 9 },
-                { "row": 4, "col": 1, "value": 2 },
-                { "row": 5, "col": 4, "value": 7 },
-                { "row": 6, "col": 2, "value": 5 }
-              ]
-            },
-            {
-              "id": "level_08",
-              "gridRows": 6,
-              "gridCols": 7,
-              "difficulty": 4,
-              "clues": [
-                { "row": 0, "col": 4, "value": 5 },
-                { "row": 1, "col": 1, "value": 3 },
-                { "row": 2, "col": 6, "value": 4 },
-                { "row": 3, "col": 0, "value": 8 },
-                { "row": 4, "col": 3, "value": 6 },
-                { "row": 5, "col": 5, "value": 2 }
-              ]
-            },
-            {
-              "id": "level_09",
-              "gridRows": 8,
-              "gridCols": 6,
-              "difficulty": 5,
-              "clues": [
-                { "row": 0, "col": 3, "value": 4 },
-                { "row": 1, "col": 0, "value": 6 },
-                { "row": 2, "col": 5, "value": 3 },
-                { "row": 3, "col": 2, "value": 10 },
-                { "row": 4, "col": 4, "value": 2 },
-                { "row": 5, "col": 1, "value": 8 },
-                { "row": 6, "col": 3, "value": 5 },
-                { "row": 7, "col": 0, "value": 4 }
-              ]
-            }
-          ]
-        }
-        """
-
-        guard let data = embeddedJSON.data(using: .utf8) else {
-            print("❌ ERROR: Could not convert embedded JSON to data")
-            return
-        }
-
-        do {
-            let container = try JSONDecoder().decode(LevelsContainer.self, from: data)
-            self.baseLevels = container.levels
-            print("✅ Successfully loaded \(baseLevels.count) levels from embedded data")
-
-            // Log first few levels for verification
-            for (index, level) in baseLevels.prefix(3).enumerated() {
-                print("Level \(index): \(level.id), grid: \(level.gridRows)x\(level.gridCols), clues: \(level.clues.count)")
-            }
-        } catch {
-            print("❌ ERROR: Failed to decode embedded JSON: \(error)")
-        }
+        // Simplified - no embedded levels as requested
+        print("⚠️ No embedded levels - JSON file is required")
+        self.baseLevels = []
+        self.isLoaded = true // Mark as loaded even if empty
     }
 
     func getLevelForDate(_ date: Date) -> ShikakuLevel? {
@@ -246,13 +89,8 @@ class LevelManager {
 
         // Calculate days from reference date (today)
         let dayOffset = calendar.dateComponents([.day], from: referenceDate, to: date).day ?? 0
-
-        // Map to 10-level cycle (levels 0-9)
-        // Day -5 to -1 = levels 0-4 (past)
-        // Day 0 = level 5 (today)
-        // Day 1 to 4 = levels 6-9 (future)
-        let adjustedOffset = dayOffset + 5 // Shift so today (0) becomes index 5
-        let levelIndex = ((adjustedOffset % 10) + 10) % 10 // Handle negative numbers properly
+        let adjustedOffset = dayOffset + 5
+        let levelIndex = ((adjustedOffset % baseLevels.count) + baseLevels.count) % baseLevels.count // Handle negative numbers properly
 
         print("🔍 Date: \(date), dayOffset: \(dayOffset), levelIndex: \(levelIndex)")
 
@@ -284,26 +122,12 @@ class LevelManager {
         return getAllLevelsInRange(from: startDate, to: endDate)
     }
 
-    // Get levels for calendar display with completion status
-    func getCalendarLevels(completedLevels: [ShikakuLevel]) -> [ShikakuLevel] {
-        let startDate = calendar.date(byAdding: .month, value: -1, to: referenceDate) ?? referenceDate
-        let endDate = calendar.date(byAdding: .month, value: 1, to: referenceDate) ?? referenceDate
-
-        var levels: [ShikakuLevel] = []
-        var currentDate = startDate
-
-        while currentDate <= endDate {
-            if let level = getLevelForDate(currentDate, completedLevels: completedLevels) {
-                levels.append(level)
-            }
-            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
-        }
-
-        return levels
+    // Debug method to check if levels are loaded
+    func getLoadedLevelsCount() -> Int {
+        return baseLevels.count
     }
 }
-
-// MARK: - SwiftData Models (Level Templates - No completion tracking)
+// MARK: - SwiftData Models
 
 @Model
 final class ShikakuLevel {
@@ -315,6 +139,7 @@ final class ShikakuLevel {
     var isCompleted: Bool // This is now just for UI display, not persistent
     var difficulty: Int
     var levelDataId: String // Reference to JSON level
+    var completionTime: TimeInterval? // ADDED - This was missing
 
     init(date: Date, gridRows: Int, gridCols: Int, clues: [LevelClue] = [], difficulty: Int = 3, levelDataId: String = "") {
         self.id = UUID()
@@ -325,6 +150,7 @@ final class ShikakuLevel {
         self.isCompleted = false // Never persisted to SwiftData
         self.difficulty = difficulty
         self.levelDataId = levelDataId
+        self.completionTime = nil // ADDED
     }
 
     // Convert from LevelData and date

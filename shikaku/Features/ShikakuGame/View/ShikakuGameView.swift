@@ -251,12 +251,13 @@ struct ShikakuGameView: View {
     return min(cellWidth, cellHeight, 70)
   }
 
+  // FIXED: Updated completion handling
   private func handleGameCompletion() {
     session.complete()
 
     // Update level completion in database
     session.level.isCompleted = true
-    session.level.completionTime = Date().timeIntervalSinceReferenceDate
+    session.level.completionTime = session.duration // FIXED: Use session duration instead of timeIntervalSinceReferenceDate
 
     try? modelContext.save()
 

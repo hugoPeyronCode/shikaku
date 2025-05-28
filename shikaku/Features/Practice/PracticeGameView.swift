@@ -10,13 +10,12 @@ struct PracticeModeView: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
 
-    let levels: [ShikakuLevel] // This will be ignored, we'll use JSON levels
     let coordinator: AppCoordinator
 
     @State private var selectedDifficulty: Int = 0 // 0 = all difficulties
     @State private var completedInSession = 0
     @State private var sessionStartTime = Date()
-    @State private var levelManager = LevelManager()
+    private let levelManager = LevelManager.shared
 
     // Query completed levels from SwiftData
     @Query(
@@ -421,6 +420,6 @@ struct StatItem: View {
 }
 
 #Preview {
-    PracticeModeView(levels: [], coordinator: AppCoordinator())
+    PracticeModeView(coordinator: AppCoordinator())
         .modelContainer(for: [ShikakuLevel.self, GameProgress.self, LevelClue.self])
 }

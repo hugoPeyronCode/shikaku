@@ -118,7 +118,7 @@ struct ShikakuCalendarView: View {
                         CalendarDayView(
                             day: day,
                             isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
-                            level: viewModel.getLevelForDate(day.date, completedLevels: completedLevels),
+                            level: viewModel.getLevelForDate(viewModel.selectedDate, completedLevels: completedLevels),
                             isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
                             colorScheme: colorScheme,
                             isCompact: true
@@ -146,7 +146,7 @@ struct ShikakuCalendarView: View {
                     CalendarDayView(
                         day: day,
                         isSelected: Calendar.current.isDate(day.date, inSameDayAs: viewModel.selectedDate),
-                        level: viewModel.getLevelForDate(day.date, completedLevels: completedLevels),
+                        level: viewModel.getLevelForDate(viewModel.selectedDate, completedLevels: completedLevels),
                         isStrategic: strategicDays.contains { Calendar.current.isDate($0, inSameDayAs: day.date) },
                         colorScheme: colorScheme,
                         isCompact: false
@@ -360,7 +360,7 @@ struct ShikakuCalendarView: View {
     private func navigationContent(for destination: AppCoordinator.NavigationDestination) -> some View {
         switch destination {
         case .practiceMode(let levels):
-            PracticeModeView(levels: levels, coordinator: coordinator)
+            PracticeModeView(coordinator: coordinator)
                 .environment(\.modelContext, modelContext)
                 .environment(coordinator)
         }

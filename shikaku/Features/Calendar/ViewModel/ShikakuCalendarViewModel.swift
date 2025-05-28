@@ -21,31 +21,70 @@ class ShikakuCalendarViewModel {
     var game = ShikakuGame()
 
     // Level manager for JSON-based levels
-    let levelManager = LevelManager()
+    private let levelManager = LevelManager.shared
     private let calendar = Calendar.current
 
-    // MARK: - Level Access
+    // MARK: - Level Access (FIXED)
 
     func getLevelForDate(_ date: Date) -> ShikakuLevel? {
         return levelManager.getLevelForDate(date)
     }
 
-    func getLevelForDate(_ date: Date, completions: [LevelCompletion]) -> ShikakuLevel? {
-        return levelManager.getLevelForDate(date, completions: completions)
+    // FIXED: Updated to use SwiftData levels instead of LevelCompletion
+    func getLevelForDate(_ date: Date, completedLevels: [ShikakuLevel]) -> ShikakuLevel? {
+        let level = levelManager.getLevelForDate(date)
+
+        // Check if this level pattern has been completed in SwiftData
+        if let level = level {
+            let isCompleted = completedLevels.contains { completedLevel in
+                completedLevel.levelDataId == level.levelDataId &&
+                Calendar.current.isDate(completedLevel.date, inSameDayAs: date)
+            }
+            level.isCompleted = isCompleted
+
+            // Also set completion time if available
+            if let completedLevel = completedLevels.first(where: { completedLevel in
+                completedLevel.levelDataId == level.levelDataId &&
+                Calendar.current.isDate(completedLevel.date, inSameDayAs: date)
+            }) {
+                level.completionTime = completedLevel.completionTime
+            }
+        }
+
+        return level
     }
 
     func getCalendarLevels() -> [ShikakuLevel] {
         return levelManager.getCalendarLevels()
     }
 
-    func getCalendarLevels(completions: [LevelCompletion]) -> [ShikakuLevel] {
-        return levelManager.getCalendarLevels(completions: completions)
+    // FIXED: Updated to use SwiftData levels
+    func getCalendarLevels(completedLevels: [ShikakuLevel]) -> [ShikakuLevel] {
+        let calendarLevels = levelManager.getCalendarLevels()
+
+        // Mark levels as completed based on SwiftData
+        for level in calendarLevels {
+            let isCompleted = completedLevels.contains { completedLevel in
+                completedLevel.levelDataId == level.levelDataId &&
+                Calendar.current.isDate(completedLevel.date, inSameDayAs: level.date)
+            }
+            level.isCompleted = isCompleted
+
+            // Also set completion time if available
+            if let completedLevel = completedLevels.first(where: { completedLevel in
+                completedLevel.levelDataId == level.levelDataId &&
+                Calendar.current.isDate(completedLevel.date, inSameDayAs: level.date)
+            }) {
+                level.completionTime = completedLevel.completionTime
+            }
+        }
+
+        return calendarLevels
     }
 
     // For backward compatibility with existing view code
     func levelForDate(_ date: Date, levels: [ShikakuLevel]) -> ShikakuLevel? {
-        // This method signature is kept for compatibility but we'll update the view to use completions
-        return getLevelForDate(date)
+        return getLevelForDate(date, completedLevels: levels)
     }
 
     // MARK: - Streak Strategy Logic (Updated for JSON approach)
